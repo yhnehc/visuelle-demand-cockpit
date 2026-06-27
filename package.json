@@ -1,0 +1,17 @@
+{
+	"scripts": {
+		"dev": "vite --host 127.0.0.1",
+		"build": "vite build",
+		"preview": "vite preview --host 127.0.0.1"
+	},
+	"dependencies": {
+		"@vitejs/plugin-react": "^6.0.3",
+		"lucide-react": "^1.21.0",
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7",
+		"vite": "^8.1.0"
+	},
+	"devDependencies": {
+		"playwright": "^1.61.1"
+	}
+}
