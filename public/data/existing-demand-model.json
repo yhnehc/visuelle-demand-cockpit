@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-06-28T04:20:55.830594Z",
+  "modelType": "XGBoost Regressor",
+  "userInput": "product_id",
+  "outputs": [
+    "next4wDemand",
+    "next8wDemand",
+    "next12wDemand"
+  ],
+  "predictionsByProductId": {
+    "5180": {
+      "next4wDemand": 73,
+      "next8wDemand": 229,
+      "next12wDemand": 454
+    },
+    "2476": {
+      "next4wDemand": 84,
+      "next8wDemand": 204,
+      "next12wDemand": 317
+    },
+    "3403": {
+      "next4wDemand": 85,
+      "next8wDemand": 343,
+      "next12wDemand": 454
+    },
+    "5093": {
+      "next4wDemand": 74,
+      "next8wDemand": 299,
+      "next12wDemand": 477
+    },
+    "3642": {
+      "next4wDemand": 71,
+      "next8wDemand": 263,
+      "next12wDemand": 349
+    },
+    "5114": {
+      "next4wDemand": 83,
+      "next8wDemand": 251,
+      "next12wDemand": 431
+    },
+    "3331": {
+      "next4wDemand": 79,
+      "next8wDemand": 300,
+      "next12wDemand": 403
+    },
+    "4216": {
+      "next4wDemand": 74,
+      "next8wDemand": 265,
+      "next12wDemand": 422
+    }
+  },
+  "validationSummary": {
+    "4": {
+      "testWapePct": 28.96,
+      "testAccuracyPct": 71.04,
+      "testBiasPct": -8.81
+    },
+    "8": {
+      "testWapePct": 28.62,
+      "testAccuracyPct": 71.38,
+      "testBiasPct": -7.69
+    },
+    "12": {
+      "testWapePct": 27.95,
+      "testAccuracyPct": 72.05,
+      "testBiasPct": -6.57
+    }
+  }
+}

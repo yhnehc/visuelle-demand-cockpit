@@ -1,0 +1,875 @@
+{
+  "generatedAt": "2026-06-28T04:20:55.830594Z",
+  "modelType": "XGBoost Regressor",
+  "newProductModel": {
+    "problemDefinition": {
+      "userInput": [
+        "category",
+        "color",
+        "fabric"
+      ],
+      "outputs": [
+        "future4wDemand",
+        "future8wDemand",
+        "future12wDemand"
+      ]
+    },
+    "samples": 4666,
+    "splitPolicy": {
+      "method": "Product-level deterministic 70/15/15 split by external_code hash",
+      "trainProducts": 3266,
+      "validationProducts": 699,
+      "testProducts": 701,
+      "trainSamples": 3266,
+      "validationSamples": 699,
+      "testSamples": 701
+    },
+    "horizons": {
+      "4": {
+        "horizonWeeks": 4,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 3266,
+            "products": 3266,
+            "actualUnits": 518534,
+            "forecastUnits": 433583,
+            "mae": 65.74,
+            "rmse": 97.89,
+            "wape": 0.4141,
+            "wapePct": 41.41,
+            "accuracyPct": 58.59,
+            "bias": -0.1638,
+            "biasPct": -16.38
+          },
+          "validation": {
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 108966,
+            "forecastUnits": 93243,
+            "mae": 83.18,
+            "rmse": 125.62,
+            "wape": 0.5336,
+            "wapePct": 53.36,
+            "accuracyPct": 46.64,
+            "bias": -0.1443,
+            "biasPct": -14.43
+          },
+          "test": {
+            "samples": 701,
+            "products": 701,
+            "actualUnits": 111523,
+            "forecastUnits": 94028,
+            "mae": 83.05,
+            "rmse": 121.12,
+            "wape": 0.522,
+            "wapePct": 52.2,
+            "accuracyPct": 47.8,
+            "bias": -0.1569,
+            "biasPct": -15.69
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 108966,
+            "forecastUnits": 93243,
+            "mae": 83.18,
+            "rmse": 125.62,
+            "wape": 0.5336,
+            "wapePct": 53.36,
+            "accuracyPct": 46.64,
+            "bias": -0.1443,
+            "biasPct": -14.43
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 108966,
+            "forecastUnits": 95844,
+            "mae": 84.89,
+            "rmse": 126.51,
+            "wape": 0.5445,
+            "wapePct": 54.45,
+            "accuracyPct": 45.55,
+            "bias": -0.1204,
+            "biasPct": -12.04
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 108966,
+            "forecastUnits": 96029,
+            "mae": 84.98,
+            "rmse": 126.67,
+            "wape": 0.5451,
+            "wapePct": 54.51,
+            "accuracyPct": 45.49,
+            "bias": -0.1187,
+            "biasPct": -11.87
+          },
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 108966,
+            "forecastUnits": 96917,
+            "mae": 85.4,
+            "rmse": 126.91,
+            "wape": 0.5478,
+            "wapePct": 54.78,
+            "accuracyPct": 45.22,
+            "bias": -0.1106,
+            "biasPct": -11.06
+          }
+        ]
+      },
+      "8": {
+        "horizonWeeks": 8,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 3266,
+            "products": 3266,
+            "actualUnits": 1090302,
+            "forecastUnits": 928097,
+            "mae": 130.03,
+            "rmse": 201.58,
+            "wape": 0.3895,
+            "wapePct": 38.95,
+            "accuracyPct": 61.05,
+            "bias": -0.1488,
+            "biasPct": -14.88
+          },
+          "validation": {
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 229228,
+            "forecastUnits": 204599,
+            "mae": 173.81,
+            "rmse": 261.45,
+            "wape": 0.53,
+            "wapePct": 53.0,
+            "accuracyPct": 47.0,
+            "bias": -0.1074,
+            "biasPct": -10.74
+          },
+          "test": {
+            "samples": 701,
+            "products": 701,
+            "actualUnits": 224654,
+            "forecastUnits": 204525,
+            "mae": 160.89,
+            "rmse": 250.23,
+            "wape": 0.502,
+            "wapePct": 50.2,
+            "accuracyPct": 49.8,
+            "bias": -0.0896,
+            "biasPct": -8.96
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 229228,
+            "forecastUnits": 204599,
+            "mae": 173.81,
+            "rmse": 261.45,
+            "wape": 0.53,
+            "wapePct": 53.0,
+            "accuracyPct": 47.0,
+            "bias": -0.1074,
+            "biasPct": -10.74
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 229228,
+            "forecastUnits": 209823,
+            "mae": 175.56,
+            "rmse": 264.16,
+            "wape": 0.5353,
+            "wapePct": 53.53,
+            "accuracyPct": 46.47,
+            "bias": -0.0847,
+            "biasPct": -8.47
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 229228,
+            "forecastUnits": 210615,
+            "mae": 176.21,
+            "rmse": 263.69,
+            "wape": 0.5373,
+            "wapePct": 53.73,
+            "accuracyPct": 46.27,
+            "bias": -0.0812,
+            "biasPct": -8.12
+          },
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 229228,
+            "forecastUnits": 211258,
+            "mae": 176.5,
+            "rmse": 266.16,
+            "wape": 0.5382,
+            "wapePct": 53.82,
+            "accuracyPct": 46.18,
+            "bias": -0.0784,
+            "biasPct": -7.84
+          }
+        ]
+      },
+      "12": {
+        "horizonWeeks": 12,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 3266,
+            "products": 3266,
+            "actualUnits": 1467228,
+            "forecastUnits": 1259110,
+            "mae": 169.29,
+            "rmse": 282.11,
+            "wape": 0.3768,
+            "wapePct": 37.68,
+            "accuracyPct": 62.32,
+            "bias": -0.1418,
+            "biasPct": -14.18
+          },
+          "validation": {
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 313967,
+            "forecastUnits": 275891,
+            "mae": 238.56,
+            "rmse": 384.49,
+            "wape": 0.5311,
+            "wapePct": 53.11,
+            "accuracyPct": 46.89,
+            "bias": -0.1213,
+            "biasPct": -12.13
+          },
+          "test": {
+            "samples": 701,
+            "products": 701,
+            "actualUnits": 299810,
+            "forecastUnits": 275835,
+            "mae": 210.41,
+            "rmse": 394.32,
+            "wape": 0.492,
+            "wapePct": 49.2,
+            "accuracyPct": 50.8,
+            "bias": -0.08,
+            "biasPct": -8.0
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 313967,
+            "forecastUnits": 275891,
+            "mae": 238.56,
+            "rmse": 384.49,
+            "wape": 0.5311,
+            "wapePct": 53.11,
+            "accuracyPct": 46.89,
+            "bias": -0.1213,
+            "biasPct": -12.13
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 313967,
+            "forecastUnits": 278987,
+            "mae": 239.66,
+            "rmse": 390.34,
+            "wape": 0.5336,
+            "wapePct": 53.36,
+            "accuracyPct": 46.64,
+            "bias": -0.1114,
+            "biasPct": -11.14
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 313967,
+            "forecastUnits": 279924,
+            "mae": 240.13,
+            "rmse": 390.76,
+            "wape": 0.5346,
+            "wapePct": 53.46,
+            "accuracyPct": 46.54,
+            "bias": -0.1084,
+            "biasPct": -10.84
+          },
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 699,
+            "products": 699,
+            "actualUnits": 313967,
+            "forecastUnits": 282982,
+            "mae": 240.61,
+            "rmse": 392.02,
+            "wape": 0.5357,
+            "wapePct": 53.57,
+            "accuracyPct": 46.43,
+            "bias": -0.0987,
+            "biasPct": -9.87
+          }
+        ]
+      }
+    }
+  },
+  "existingProductModel": {
+    "problemDefinition": {
+      "userInput": "product_id",
+      "lookupBehavior": "product_id retrieves attributes, actual sales momentum, price/discount, store/restock signals, category benchmarks, and Google Trends",
+      "outputs": [
+        "next4wDemand",
+        "next8wDemand",
+        "next12wDemand"
+      ]
+    },
+    "samples": 19467,
+    "splitPolicy": {
+      "method": "Product-level deterministic 70/15/15 split by external_code hash",
+      "trainProducts": 2466,
+      "validationProducts": 528,
+      "testProducts": 530,
+      "trainSamples": 13673,
+      "validationSamples": 3053,
+      "testSamples": 2741
+    },
+    "horizons": {
+      "4": {
+        "horizonWeeks": 4,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 3,
+            "n_estimators": 180,
+            "learning_rate": 0.04,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 13673,
+            "products": 2466,
+            "actualUnits": 2007479,
+            "forecastUnits": 1847049,
+            "mae": 37.95,
+            "rmse": 63.7,
+            "wape": 0.2585,
+            "wapePct": 25.85,
+            "accuracyPct": 74.15,
+            "bias": -0.0799,
+            "biasPct": -7.99
+          },
+          "validation": {
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 487401,
+            "forecastUnits": 445226,
+            "mae": 41.94,
+            "rmse": 73.23,
+            "wape": 0.2627,
+            "wapePct": 26.27,
+            "accuracyPct": 73.73,
+            "bias": -0.0865,
+            "biasPct": -8.65
+          },
+          "test": {
+            "samples": 2741,
+            "products": 530,
+            "actualUnits": 434963,
+            "forecastUnits": 396655,
+            "mae": 45.95,
+            "rmse": 105.47,
+            "wape": 0.2896,
+            "wapePct": 28.96,
+            "accuracyPct": 71.04,
+            "bias": -0.0881,
+            "biasPct": -8.81
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 487401,
+            "forecastUnits": 445226,
+            "mae": 41.94,
+            "rmse": 73.23,
+            "wape": 0.2627,
+            "wapePct": 26.27,
+            "accuracyPct": 73.73,
+            "bias": -0.0865,
+            "biasPct": -8.65
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 487401,
+            "forecastUnits": 440876,
+            "mae": 42.53,
+            "rmse": 74.6,
+            "wape": 0.2664,
+            "wapePct": 26.64,
+            "accuracyPct": 73.36,
+            "bias": -0.0955,
+            "biasPct": -9.55
+          },
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 487401,
+            "forecastUnits": 439194,
+            "mae": 42.58,
+            "rmse": 77.4,
+            "wape": 0.2667,
+            "wapePct": 26.67,
+            "accuracyPct": 73.33,
+            "bias": -0.0989,
+            "biasPct": -9.89
+          },
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 487401,
+            "forecastUnits": 430539,
+            "mae": 44.57,
+            "rmse": 81.12,
+            "wape": 0.2792,
+            "wapePct": 27.92,
+            "accuracyPct": 72.08,
+            "bias": -0.1167,
+            "biasPct": -11.67
+          }
+        ]
+      },
+      "8": {
+        "horizonWeeks": 8,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 4,
+            "n_estimators": 140,
+            "learning_rate": 0.04,
+            "subsample": 0.85,
+            "colsample_bytree": 0.85
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 13673,
+            "products": 2466,
+            "actualUnits": 3549174,
+            "forecastUnits": 3324830,
+            "mae": 57.38,
+            "rmse": 92.67,
+            "wape": 0.2211,
+            "wapePct": 22.11,
+            "accuracyPct": 77.89,
+            "bias": -0.0632,
+            "biasPct": -6.32
+          },
+          "validation": {
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 846242,
+            "forecastUnits": 785118,
+            "mae": 73.51,
+            "rmse": 136.11,
+            "wape": 0.2652,
+            "wapePct": 26.52,
+            "accuracyPct": 73.48,
+            "bias": -0.0722,
+            "biasPct": -7.22
+          },
+          "test": {
+            "samples": 2741,
+            "products": 530,
+            "actualUnits": 769747,
+            "forecastUnits": 710545,
+            "mae": 80.39,
+            "rmse": 178.27,
+            "wape": 0.2862,
+            "wapePct": 28.62,
+            "accuracyPct": 71.38,
+            "bias": -0.0769,
+            "biasPct": -7.69
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 846242,
+            "forecastUnits": 785118,
+            "mae": 73.51,
+            "rmse": 136.11,
+            "wape": 0.2652,
+            "wapePct": 26.52,
+            "accuracyPct": 73.48,
+            "bias": -0.0722,
+            "biasPct": -7.22
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 846242,
+            "forecastUnits": 781854,
+            "mae": 74.97,
+            "rmse": 138.1,
+            "wape": 0.2705,
+            "wapePct": 27.05,
+            "accuracyPct": 72.95,
+            "bias": -0.0761,
+            "biasPct": -7.61
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 846242,
+            "forecastUnits": 774975,
+            "mae": 76.32,
+            "rmse": 144.5,
+            "wape": 0.2753,
+            "wapePct": 27.53,
+            "accuracyPct": 72.47,
+            "bias": -0.0842,
+            "biasPct": -8.42
+          },
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 846242,
+            "forecastUnits": 767861,
+            "mae": 78.08,
+            "rmse": 147.29,
+            "wape": 0.2817,
+            "wapePct": 28.17,
+            "accuracyPct": 71.83,
+            "bias": -0.0926,
+            "biasPct": -9.26
+          }
+        ]
+      },
+      "12": {
+        "horizonWeeks": 12,
+        "selectedModel": {
+          "type": "XGBoost Regressor",
+          "targetMode": "log1p",
+          "params": {
+            "max_depth": 4,
+            "n_estimators": 140,
+            "learning_rate": 0.04,
+            "subsample": 0.85,
+            "colsample_bytree": 0.85
+          }
+        },
+        "split": {
+          "train": {
+            "samples": 13673,
+            "products": 2466,
+            "actualUnits": 4619323,
+            "forecastUnits": 4363469,
+            "mae": 69.48,
+            "rmse": 105.48,
+            "wape": 0.2057,
+            "wapePct": 20.57,
+            "accuracyPct": 79.43,
+            "bias": -0.0554,
+            "biasPct": -5.54
+          },
+          "validation": {
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 1065989,
+            "forecastUnits": 1016206,
+            "mae": 86.33,
+            "rmse": 152.46,
+            "wape": 0.2473,
+            "wapePct": 24.73,
+            "accuracyPct": 75.27,
+            "bias": -0.0467,
+            "biasPct": -4.67
+          },
+          "test": {
+            "samples": 2741,
+            "products": 530,
+            "actualUnits": 1000335,
+            "forecastUnits": 934656,
+            "mae": 102.01,
+            "rmse": 199.31,
+            "wape": 0.2795,
+            "wapePct": 27.95,
+            "accuracyPct": 72.05,
+            "bias": -0.0657,
+            "biasPct": -6.57
+          }
+        },
+        "validationTuning": [
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 1065989,
+            "forecastUnits": 1016206,
+            "mae": 86.33,
+            "rmse": 152.46,
+            "wape": 0.2473,
+            "wapePct": 24.73,
+            "accuracyPct": 75.27,
+            "bias": -0.0467,
+            "biasPct": -4.67
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 180,
+              "learning_rate": 0.04,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 1065989,
+            "forecastUnits": 1016883,
+            "mae": 87.62,
+            "rmse": 152.37,
+            "wape": 0.251,
+            "wapePct": 25.1,
+            "accuracyPct": 74.9,
+            "bias": -0.0461,
+            "biasPct": -4.61
+          },
+          {
+            "params": {
+              "max_depth": 3,
+              "n_estimators": 120,
+              "learning_rate": 0.05,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 1065989,
+            "forecastUnits": 1007358,
+            "mae": 89.36,
+            "rmse": 160.54,
+            "wape": 0.2559,
+            "wapePct": 25.59,
+            "accuracyPct": 74.41,
+            "bias": -0.055,
+            "biasPct": -5.5
+          },
+          {
+            "params": {
+              "max_depth": 2,
+              "n_estimators": 100,
+              "learning_rate": 0.06,
+              "subsample": 0.9,
+              "colsample_bytree": 0.9
+            },
+            "samples": 3053,
+            "products": 528,
+            "actualUnits": 1065989,
+            "forecastUnits": 1003072,
+            "mae": 91.83,
+            "rmse": 163.59,
+            "wape": 0.263,
+            "wapePct": 26.3,
+            "accuracyPct": 73.7,
+            "bias": -0.059,
+            "biasPct": -5.9
+          }
+        ]
+      }
+    }
+  }
+}

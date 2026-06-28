@@ -682,6 +682,41 @@ h1 {
   font-weight: 700;
 }
 
+.model-output-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.model-output-strip div {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: 8px;
+  background: #f3faf8;
+}
+
+.model-output-strip span,
+.model-output-strip strong {
+  display: block;
+}
+
+.model-output-strip span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.model-output-strip strong {
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1;
+}
+
 .panel-heading {
   display: flex;
   align-items: flex-start;
@@ -1771,7 +1806,7 @@ h1 {
 .store-head,
 .store-row {
   display: grid;
-  grid-template-columns: 40px 58px 96px minmax(116px, 1fr);
+  grid-template-columns: 40px 58px 58px 90px minmax(116px, 1fr);
   gap: 8px;
   align-items: center;
 }
@@ -1839,7 +1874,7 @@ h1 {
 
 .modal-store-table .store-head,
 .modal-store-table .store-row {
-  grid-template-columns: 70px 96px 150px minmax(150px, 1fr);
+  grid-template-columns: 70px 100px 82px 150px minmax(150px, 1fr);
 }
 
 .benchmark {
@@ -2118,7 +2153,7 @@ h1 {
 
   .store-head,
   .store-row {
-    grid-template-columns: 38px 58px 72px minmax(92px, 1fr);
+    grid-template-columns: 38px 52px 52px 66px minmax(92px, 1fr);
     gap: 6px;
   }
 
