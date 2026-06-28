@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-28T05:04:19.910113Z",
+  "generatedAt": "2026-06-28T05:07:16.316608Z",
   "modelType": "XGBoost Regressor",
   "userInput": "product_id",
   "outputs": [
@@ -29,9 +29,9 @@
       "next12wDemand": 98
     },
     "3642": {
-      "next4wDemand": 116,
-      "next8wDemand": 379,
-      "next12wDemand": 379
+      "next4wDemand": 4,
+      "next8wDemand": 6,
+      "next12wDemand": 8
     },
     "5114": {
       "next4wDemand": 59,
