@@ -162,7 +162,7 @@ function calculateNewProductConfidence(analogs) {
 
 function classForSignal(signal) {
   if (signal.includes("Restock") || signal.includes("Allocation")) return "positive";
-  if (signal.includes("transfer")) return "risk";
+  if (signal.includes("Hold") || signal.includes("transfer") || signal.includes("margin")) return "risk";
   return "neutral";
 }
 
@@ -1030,13 +1030,16 @@ function AnalogSalesModal({ analog, product, analogs, onClose }) {
   );
 }
 
-function StoreSignals({ stores, forecastTotal, forecastWindow = "future 12 weeks" }) {
+function StoreSignals({ stores, forecastTotal, forecastWindow = "future 12 weeks", productAction = "Reallocate" }) {
   const [isOpen, setIsOpen] = useState(false);
   const totalAllocationWeight = stores.reduce((sum, store) => sum + (store.allocationWeight || 0), 0);
   const actualToDateTotal = stores.reduce((sum, store) => sum + (store.actualToDate || store.total12 || 0), 0);
   const hasForecast = Number.isFinite(forecastTotal);
+  const canAllocate = productAction === "Restock" || productAction === "Reallocate";
+  const allocationSignal = productAction === "Restock" ? "Restock candidate" : "Allocation candidate";
+  const conservativeSignal = productAction === "Markdown Review" ? "Hold / margin review" : "Monitor only";
   const signalTooltip = hasForecast
-    ? `Directional allocation forecast for all stores with observed sales. Formula: product ${forecastWindow} forecast (${formatK(forecastTotal)} units) x store allocation weight. Allocation weight = 70% actual-to-date store share + 30% recent-4-week store share, capped at 2.5x actual-to-date share and normalized across stores. Inventory depth and store profiles are not available, so this is not an exact store order quantity.`
+    ? `Directional allocation forecast for all stores with observed sales. Formula: product ${forecastWindow} forecast (${formatK(forecastTotal)} units) x store allocation weight. Allocation weight = 70% actual-to-date store share + 30% recent-4-week store share, capped at 2.5x actual-to-date share and normalized across stores. Store labels are gated by the product-level recommendation: Restock can show Restock candidate, Reallocate can show Allocation candidate, and Watch shows Monitor only. Inventory depth and store profiles are not available, so this is not an exact store order quantity.`
     : `Directional store signal from actual-to-date store sales only. Formula: each store's actual units as a share of all observed store units (${formatK(actualToDateTotal)} units). Inventory depth and store profiles are not available, so this is not an exact store order quantity.`;
   const baseRows = stores.map((store) => {
     const fallbackWeight = actualToDateTotal ? (store.actualToDate || store.total12 || 0) / actualToDateTotal : 0;
@@ -1054,10 +1057,12 @@ function StoreSignals({ stores, forecastTotal, forecastWindow = "future 12 weeks
   const rows = baseRows
     .map((store) => ({
       ...store,
-      signal: hasForecast && store.storeForecast >= topThreshold
-        ? "Allocation candidate"
-        : hasForecast && store.storeForecast <= lowThreshold && !store.recent4
-          ? "Watch / possible transfer"
+      signal: !canAllocate
+        ? (hasForecast && store.storeForecast <= lowThreshold && !store.recent4 ? "Hold / transfer review" : conservativeSignal)
+        : hasForecast && store.storeForecast >= topThreshold
+          ? allocationSignal
+          : hasForecast && store.storeForecast <= lowThreshold && !store.recent4
+            ? "Watch / possible transfer"
           : "Monitor",
     }))
     .sort((a, b) => (b.storeForecast || 0) - (a.storeForecast || 0) || (b.actualToDate || 0) - (a.actualToDate || 0));
@@ -1320,7 +1325,7 @@ function ExistingProductView({ data, product, existingModel }) {
           analogRangeTooltip={isModelForecast ? "Analog range is shown only over actual historical weeks as P25-P75 of matched analog actual lifecycle sales." : "Analog range covers actual and forecast windows. In actual weeks, it is the P25-P75 range of matched analog actual sales. In forecast weeks, it is the P25-P75 range of scaled historical future tails after the same Google Trends adjustment."}
         />
       </section>
-      <section className="lower-grid"><StoreSignals stores={product.storeSignals} forecastTotal={next12wDemand} forecastWindow={isModelForecast ? "next 12w" : forecast.window} /><Benchmark label={isModelForecast ? `${product.category} model category benchmark for the same next-12-week target.` : `${product.category} W0-W11 category benchmark across ${categoryBenchmark.count} category products. Product value uses available actual lifecycle sales.`} avgDiscount={product.avgDiscount} values={isModelForecast ? [{ label: "Model next 12w", value: next12wDemand, kind: "product" }, { label: "Category avg next 12w", value: modelCategoryBenchmark || categoryBenchmark.median, kind: "median" }, { label: "Restock threshold", value: (modelCategoryBenchmark || categoryBenchmark.median) * 1.25, kind: "top" }] : [{ label: "This product actual", value: actualLifecycleTotal, kind: "product" }, { label: "Category top quartile", value: categoryBenchmark.topQuartile, kind: "top" }, { label: "Category median", value: categoryBenchmark.median, kind: "median" }]} /><AnalogCards analogs={displayAnalogs} product={product} /></section>
+      <section className="lower-grid"><StoreSignals stores={product.storeSignals} forecastTotal={next12wDemand} forecastWindow={isModelForecast ? "next 12w" : forecast.window} productAction={recommendedAction} /><Benchmark label={isModelForecast ? `${product.category} model category benchmark for the same next-12-week target.` : `${product.category} W0-W11 category benchmark across ${categoryBenchmark.count} category products. Product value uses available actual lifecycle sales.`} avgDiscount={product.avgDiscount} values={isModelForecast ? [{ label: "Model next 12w", value: next12wDemand, kind: "product" }, { label: "Category avg next 12w", value: modelCategoryBenchmark || categoryBenchmark.median, kind: "median" }, { label: "Restock threshold", value: (modelCategoryBenchmark || categoryBenchmark.median) * 1.25, kind: "top" }] : [{ label: "This product actual", value: actualLifecycleTotal, kind: "product" }, { label: "Category top quartile", value: categoryBenchmark.topQuartile, kind: "top" }, { label: "Category median", value: categoryBenchmark.median, kind: "median" }]} /><AnalogCards analogs={displayAnalogs} product={product} /></section>
     </>
   );
 }
