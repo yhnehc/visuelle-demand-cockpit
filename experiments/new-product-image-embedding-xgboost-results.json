@@ -1,0 +1,1109 @@
+{
+  "generatedAt": "2026-06-28T04:38:50.005407Z",
+  "experiment": "New product XGBoost with image embeddings plus structured features",
+  "doesNotModifyAppModel": true,
+  "targetDefinition": {
+    "input": [
+      "category",
+      "color",
+      "fabric",
+      "product image"
+    ],
+    "outputs": [
+      "future4wDemand",
+      "future8wDemand",
+      "future12wDemand"
+    ],
+    "meaning": "Cumulative launch demand from W0 through each horizon."
+  },
+  "imageEmbeddingDefinition": {
+    "type": "TruncatedSVD over image descriptors",
+    "rawImageDescriptor": "32x32 RGB pixels, RGB histograms, foreground share, foreground bounding box, aspect ratio, and foreground mean color",
+    "training": "Scaler and SVD are fit on training product images only inside the same 70/15/15 split.",
+    "note": "This is a local image embedding experiment. It does not download or fine-tune a pretrained vision model."
+  },
+  "baselineSummary": {
+    "name": "structured_xgboost_baseline",
+    "attrDims": 0,
+    "imageDims": 0,
+    "avgValidationWapePct": 53.16,
+    "avgTestWapePct": 50.53,
+    "avgTestAccuracyPct": 49.47,
+    "horizonTest": {
+      "4": {
+        "wapePct": 52.2,
+        "accuracyPct": 47.8,
+        "biasPct": -15.69
+      },
+      "8": {
+        "wapePct": 50.2,
+        "accuracyPct": 49.8,
+        "biasPct": -8.96
+      },
+      "12": {
+        "wapePct": 49.2,
+        "accuracyPct": 50.8,
+        "biasPct": -8.0
+      }
+    }
+  },
+  "bestByValidation": {
+    "name": "structured_plus_image_svd_8",
+    "attrDims": 0,
+    "imageDims": 8,
+    "avgValidationWapePct": 47.39,
+    "avgTestWapePct": 47.47,
+    "avgTestAccuracyPct": 52.53,
+    "horizonTest": {
+      "4": {
+        "wapePct": 49.85,
+        "accuracyPct": 50.15,
+        "biasPct": -15.51
+      },
+      "8": {
+        "wapePct": 46.94,
+        "accuracyPct": 53.06,
+        "biasPct": -8.79
+      },
+      "12": {
+        "wapePct": 45.63,
+        "accuracyPct": 54.37,
+        "biasPct": -7.99
+      }
+    }
+  },
+  "summary": [
+    {
+      "name": "structured_xgboost_baseline",
+      "attrDims": 0,
+      "imageDims": 0,
+      "avgValidationWapePct": 53.16,
+      "avgTestWapePct": 50.53,
+      "avgTestAccuracyPct": 49.47,
+      "horizonTest": {
+        "4": {
+          "wapePct": 52.2,
+          "accuracyPct": 47.8,
+          "biasPct": -15.69
+        },
+        "8": {
+          "wapePct": 50.2,
+          "accuracyPct": 49.8,
+          "biasPct": -8.96
+        },
+        "12": {
+          "wapePct": 49.2,
+          "accuracyPct": 50.8,
+          "biasPct": -8.0
+        }
+      }
+    },
+    {
+      "name": "structured_plus_image_svd_8",
+      "attrDims": 0,
+      "imageDims": 8,
+      "avgValidationWapePct": 47.39,
+      "avgTestWapePct": 47.47,
+      "avgTestAccuracyPct": 52.53,
+      "horizonTest": {
+        "4": {
+          "wapePct": 49.85,
+          "accuracyPct": 50.15,
+          "biasPct": -15.51
+        },
+        "8": {
+          "wapePct": 46.94,
+          "accuracyPct": 53.06,
+          "biasPct": -8.79
+        },
+        "12": {
+          "wapePct": 45.63,
+          "accuracyPct": 54.37,
+          "biasPct": -7.99
+        }
+      }
+    },
+    {
+      "name": "structured_plus_image_svd_16",
+      "attrDims": 0,
+      "imageDims": 16,
+      "avgValidationWapePct": 47.55,
+      "avgTestWapePct": 48.04,
+      "avgTestAccuracyPct": 51.96,
+      "horizonTest": {
+        "4": {
+          "wapePct": 50.2,
+          "accuracyPct": 49.8,
+          "biasPct": -15.32
+        },
+        "8": {
+          "wapePct": 47.89,
+          "accuracyPct": 52.11,
+          "biasPct": -8.31
+        },
+        "12": {
+          "wapePct": 46.03,
+          "accuracyPct": 53.97,
+          "biasPct": -7.63
+        }
+      }
+    },
+    {
+      "name": "structured_plus_image_svd_32",
+      "attrDims": 0,
+      "imageDims": 32,
+      "avgValidationWapePct": 47.42,
+      "avgTestWapePct": 47.84,
+      "avgTestAccuracyPct": 52.16,
+      "horizonTest": {
+        "4": {
+          "wapePct": 50.2,
+          "accuracyPct": 49.8,
+          "biasPct": -15.71
+        },
+        "8": {
+          "wapePct": 47.39,
+          "accuracyPct": 52.61,
+          "biasPct": -8.62
+        },
+        "12": {
+          "wapePct": 45.93,
+          "accuracyPct": 54.07,
+          "biasPct": -8.49
+        }
+      }
+    },
+    {
+      "name": "structured_plus_attr4_image16",
+      "attrDims": 4,
+      "imageDims": 16,
+      "avgValidationWapePct": 47.58,
+      "avgTestWapePct": 48.03,
+      "avgTestAccuracyPct": 51.97,
+      "horizonTest": {
+        "4": {
+          "wapePct": 50.05,
+          "accuracyPct": 49.95,
+          "biasPct": -15.49
+        },
+        "8": {
+          "wapePct": 47.69,
+          "accuracyPct": 52.31,
+          "biasPct": -8.33
+        },
+        "12": {
+          "wapePct": 46.35,
+          "accuracyPct": 53.65,
+          "biasPct": -7.39
+        }
+      }
+    }
+  ],
+  "details": [
+    {
+      "variant": {
+        "name": "structured_xgboost_baseline",
+        "attrDims": 0,
+        "imageDims": 0
+      },
+      "splitPolicy": {
+        "method": "Product-level deterministic 70/15/15 split by external_code hash",
+        "trainProducts": 3266,
+        "validationProducts": 699,
+        "testProducts": 701,
+        "trainSamples": 3266,
+        "validationSamples": 699,
+        "testSamples": 701
+      },
+      "imageCoverage": {
+        "allRowsWithImage": 545,
+        "totalRows": 4666
+      },
+      "horizons": {
+        "4": {
+          "target": "future4wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 0,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 518534,
+              "forecastUnits": 433583,
+              "mae": 65.74,
+              "rmse": 97.89,
+              "wape": 0.4141,
+              "wapePct": 41.41,
+              "accuracyPct": 58.59,
+              "bias": -0.1638,
+              "biasPct": -16.38
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 108966,
+              "forecastUnits": 93243,
+              "mae": 83.18,
+              "rmse": 125.62,
+              "wape": 0.5336,
+              "wapePct": 53.36,
+              "accuracyPct": 46.64,
+              "bias": -0.1443,
+              "biasPct": -14.43
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 111523,
+              "forecastUnits": 94028,
+              "mae": 83.05,
+              "rmse": 121.12,
+              "wape": 0.522,
+              "wapePct": 52.2,
+              "accuracyPct": 47.8,
+              "bias": -0.1569,
+              "biasPct": -15.69
+            }
+          }
+        },
+        "8": {
+          "target": "future8wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 0,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1090302,
+              "forecastUnits": 928097,
+              "mae": 130.03,
+              "rmse": 201.58,
+              "wape": 0.3895,
+              "wapePct": 38.95,
+              "accuracyPct": 61.05,
+              "bias": -0.1488,
+              "biasPct": -14.88
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 229228,
+              "forecastUnits": 204599,
+              "mae": 173.81,
+              "rmse": 261.45,
+              "wape": 0.53,
+              "wapePct": 53.0,
+              "accuracyPct": 47.0,
+              "bias": -0.1074,
+              "biasPct": -10.74
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 224654,
+              "forecastUnits": 204525,
+              "mae": 160.89,
+              "rmse": 250.23,
+              "wape": 0.502,
+              "wapePct": 50.2,
+              "accuracyPct": 49.8,
+              "bias": -0.0896,
+              "biasPct": -8.96
+            }
+          }
+        },
+        "12": {
+          "target": "future12wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 0,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1467228,
+              "forecastUnits": 1259110,
+              "mae": 169.29,
+              "rmse": 282.11,
+              "wape": 0.3768,
+              "wapePct": 37.68,
+              "accuracyPct": 62.32,
+              "bias": -0.1418,
+              "biasPct": -14.18
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 313967,
+              "forecastUnits": 275891,
+              "mae": 238.56,
+              "rmse": 384.49,
+              "wape": 0.5311,
+              "wapePct": 53.11,
+              "accuracyPct": 46.89,
+              "bias": -0.1213,
+              "biasPct": -12.13
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 299810,
+              "forecastUnits": 275835,
+              "mae": 210.41,
+              "rmse": 394.32,
+              "wape": 0.492,
+              "wapePct": 49.2,
+              "accuracyPct": 50.8,
+              "bias": -0.08,
+              "biasPct": -8.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "variant": {
+        "name": "structured_plus_image_svd_8",
+        "attrDims": 0,
+        "imageDims": 8
+      },
+      "splitPolicy": {
+        "method": "Product-level deterministic 70/15/15 split by external_code hash",
+        "trainProducts": 3266,
+        "validationProducts": 699,
+        "testProducts": 701,
+        "trainSamples": 3266,
+        "validationSamples": 699,
+        "testSamples": 701
+      },
+      "imageCoverage": {
+        "allRowsWithImage": 545,
+        "totalRows": 4666
+      },
+      "horizons": {
+        "4": {
+          "target": "future4wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 8,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 518534,
+              "forecastUnits": 438305,
+              "mae": 62.58,
+              "rmse": 90.29,
+              "wape": 0.3942,
+              "wapePct": 39.42,
+              "accuracyPct": 60.58,
+              "bias": -0.1547,
+              "biasPct": -15.47
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 108966,
+              "forecastUnits": 93789,
+              "mae": 78.62,
+              "rmse": 118.3,
+              "wape": 0.5043,
+              "wapePct": 50.43,
+              "accuracyPct": 49.57,
+              "bias": -0.1393,
+              "biasPct": -13.93
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 111523,
+              "forecastUnits": 94221,
+              "mae": 79.31,
+              "rmse": 115.98,
+              "wape": 0.4985,
+              "wapePct": 49.85,
+              "accuracyPct": 50.15,
+              "bias": -0.1551,
+              "biasPct": -15.51
+            }
+          }
+        },
+        "8": {
+          "target": "future8wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 8,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1090302,
+              "forecastUnits": 948912,
+              "mae": 117.96,
+              "rmse": 170.78,
+              "wape": 0.3534,
+              "wapePct": 35.34,
+              "accuracyPct": 64.66,
+              "bias": -0.1297,
+              "biasPct": -12.97
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 229228,
+              "forecastUnits": 206780,
+              "mae": 152.83,
+              "rmse": 224.16,
+              "wape": 0.466,
+              "wapePct": 46.6,
+              "accuracyPct": 53.4,
+              "bias": -0.0979,
+              "biasPct": -9.79
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 224654,
+              "forecastUnits": 204907,
+              "mae": 150.42,
+              "rmse": 228.75,
+              "wape": 0.4694,
+              "wapePct": 46.94,
+              "accuracyPct": 53.06,
+              "bias": -0.0879,
+              "biasPct": -8.79
+            }
+          }
+        },
+        "12": {
+          "target": "future12wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 8,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1467228,
+              "forecastUnits": 1293099,
+              "mae": 149.07,
+              "rmse": 225.83,
+              "wape": 0.3318,
+              "wapePct": 33.18,
+              "accuracyPct": 66.82,
+              "bias": -0.1187,
+              "biasPct": -11.87
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 313967,
+              "forecastUnits": 275198,
+              "mae": 202.82,
+              "rmse": 325.86,
+              "wape": 0.4515,
+              "wapePct": 45.15,
+              "accuracyPct": 54.85,
+              "bias": -0.1235,
+              "biasPct": -12.35
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 299810,
+              "forecastUnits": 275863,
+              "mae": 195.14,
+              "rmse": 356.15,
+              "wape": 0.4563,
+              "wapePct": 45.63,
+              "accuracyPct": 54.37,
+              "bias": -0.0799,
+              "biasPct": -7.99
+            }
+          }
+        }
+      }
+    },
+    {
+      "variant": {
+        "name": "structured_plus_image_svd_16",
+        "attrDims": 0,
+        "imageDims": 16
+      },
+      "splitPolicy": {
+        "method": "Product-level deterministic 70/15/15 split by external_code hash",
+        "trainProducts": 3266,
+        "validationProducts": 699,
+        "testProducts": 701,
+        "trainSamples": 3266,
+        "validationSamples": 699,
+        "testSamples": 701
+      },
+      "imageCoverage": {
+        "allRowsWithImage": 545,
+        "totalRows": 4666
+      },
+      "horizons": {
+        "4": {
+          "target": "future4wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 518534,
+              "forecastUnits": 438731,
+              "mae": 62.16,
+              "rmse": 89.33,
+              "wape": 0.3915,
+              "wapePct": 39.15,
+              "accuracyPct": 60.85,
+              "bias": -0.1539,
+              "biasPct": -15.39
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 108966,
+              "forecastUnits": 93754,
+              "mae": 78.72,
+              "rmse": 118.86,
+              "wape": 0.505,
+              "wapePct": 50.5,
+              "accuracyPct": 49.5,
+              "bias": -0.1396,
+              "biasPct": -13.96
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 111523,
+              "forecastUnits": 94435,
+              "mae": 79.87,
+              "rmse": 117.79,
+              "wape": 0.502,
+              "wapePct": 50.2,
+              "accuracyPct": 49.8,
+              "bias": -0.1532,
+              "biasPct": -15.32
+            }
+          }
+        },
+        "8": {
+          "target": "future8wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1090302,
+              "forecastUnits": 948522,
+              "mae": 117.98,
+              "rmse": 169.18,
+              "wape": 0.3534,
+              "wapePct": 35.34,
+              "accuracyPct": 64.66,
+              "bias": -0.13,
+              "biasPct": -13.0
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 229228,
+              "forecastUnits": 206955,
+              "mae": 154.07,
+              "rmse": 228.41,
+              "wape": 0.4698,
+              "wapePct": 46.98,
+              "accuracyPct": 53.02,
+              "bias": -0.0972,
+              "biasPct": -9.72
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 224654,
+              "forecastUnits": 205988,
+              "mae": 153.48,
+              "rmse": 233.67,
+              "wape": 0.4789,
+              "wapePct": 47.89,
+              "accuracyPct": 52.11,
+              "bias": -0.0831,
+              "biasPct": -8.31
+            }
+          }
+        },
+        "12": {
+          "target": "future12wDemand",
+          "selectedParams": {
+            "max_depth": 3,
+            "n_estimators": 180,
+            "learning_rate": 0.04,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1467228,
+              "forecastUnits": 1320679,
+              "mae": 131.81,
+              "rmse": 193.98,
+              "wape": 0.2934,
+              "wapePct": 29.34,
+              "accuracyPct": 70.66,
+              "bias": -0.0999,
+              "biasPct": -9.99
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 313967,
+              "forecastUnits": 277082,
+              "mae": 202.86,
+              "rmse": 329.03,
+              "wape": 0.4516,
+              "wapePct": 45.16,
+              "accuracyPct": 54.84,
+              "bias": -0.1175,
+              "biasPct": -11.75
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 299810,
+              "forecastUnits": 276922,
+              "mae": 196.88,
+              "rmse": 361.81,
+              "wape": 0.4603,
+              "wapePct": 46.03,
+              "accuracyPct": 53.97,
+              "bias": -0.0763,
+              "biasPct": -7.63
+            }
+          }
+        }
+      }
+    },
+    {
+      "variant": {
+        "name": "structured_plus_image_svd_32",
+        "attrDims": 0,
+        "imageDims": 32
+      },
+      "splitPolicy": {
+        "method": "Product-level deterministic 70/15/15 split by external_code hash",
+        "trainProducts": 3266,
+        "validationProducts": 699,
+        "testProducts": 701,
+        "trainSamples": 3266,
+        "validationSamples": 699,
+        "testSamples": 701
+      },
+      "imageCoverage": {
+        "allRowsWithImage": 545,
+        "totalRows": 4666
+      },
+      "horizons": {
+        "4": {
+          "target": "future4wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 32,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 518534,
+              "forecastUnits": 438529,
+              "mae": 62.06,
+              "rmse": 89.4,
+              "wape": 0.3909,
+              "wapePct": 39.09,
+              "accuracyPct": 60.91,
+              "bias": -0.1543,
+              "biasPct": -15.43
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 108966,
+              "forecastUnits": 93225,
+              "mae": 78.39,
+              "rmse": 118.09,
+              "wape": 0.5029,
+              "wapePct": 50.29,
+              "accuracyPct": 49.71,
+              "bias": -0.1445,
+              "biasPct": -14.45
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 111523,
+              "forecastUnits": 94007,
+              "mae": 79.86,
+              "rmse": 117.63,
+              "wape": 0.502,
+              "wapePct": 50.2,
+              "accuracyPct": 49.8,
+              "bias": -0.1571,
+              "biasPct": -15.71
+            }
+          }
+        },
+        "8": {
+          "target": "future8wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 32,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1090302,
+              "forecastUnits": 948711,
+              "mae": 117.84,
+              "rmse": 167.41,
+              "wape": 0.353,
+              "wapePct": 35.3,
+              "accuracyPct": 64.7,
+              "bias": -0.1299,
+              "biasPct": -12.99
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 229228,
+              "forecastUnits": 206287,
+              "mae": 152.94,
+              "rmse": 226.31,
+              "wape": 0.4664,
+              "wapePct": 46.64,
+              "accuracyPct": 53.36,
+              "bias": -0.1001,
+              "biasPct": -10.01
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 224654,
+              "forecastUnits": 205295,
+              "mae": 151.88,
+              "rmse": 232.15,
+              "wape": 0.4739,
+              "wapePct": 47.39,
+              "accuracyPct": 52.61,
+              "bias": -0.0862,
+              "biasPct": -8.62
+            }
+          }
+        },
+        "12": {
+          "target": "future12wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 0,
+          "imageDimsUsed": 32,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1467228,
+              "forecastUnits": 1293376,
+              "mae": 148.56,
+              "rmse": 221.98,
+              "wape": 0.3307,
+              "wapePct": 33.07,
+              "accuracyPct": 66.93,
+              "bias": -0.1185,
+              "biasPct": -11.85
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 313967,
+              "forecastUnits": 272914,
+              "mae": 203.59,
+              "rmse": 329.15,
+              "wape": 0.4533,
+              "wapePct": 45.33,
+              "accuracyPct": 54.67,
+              "bias": -0.1308,
+              "biasPct": -13.08
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 299810,
+              "forecastUnits": 274351,
+              "mae": 196.46,
+              "rmse": 358.91,
+              "wape": 0.4593,
+              "wapePct": 45.93,
+              "accuracyPct": 54.07,
+              "bias": -0.0849,
+              "biasPct": -8.49
+            }
+          }
+        }
+      }
+    },
+    {
+      "variant": {
+        "name": "structured_plus_attr4_image16",
+        "attrDims": 4,
+        "imageDims": 16
+      },
+      "splitPolicy": {
+        "method": "Product-level deterministic 70/15/15 split by external_code hash",
+        "trainProducts": 3266,
+        "validationProducts": 699,
+        "testProducts": 701,
+        "trainSamples": 3266,
+        "validationSamples": 699,
+        "testSamples": 701
+      },
+      "imageCoverage": {
+        "allRowsWithImage": 545,
+        "totalRows": 4666
+      },
+      "horizons": {
+        "4": {
+          "target": "future4wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 4,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 518534,
+              "forecastUnits": 437755,
+              "mae": 62.43,
+              "rmse": 89.77,
+              "wape": 0.3932,
+              "wapePct": 39.32,
+              "accuracyPct": 60.68,
+              "bias": -0.1558,
+              "biasPct": -15.58
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 108966,
+              "forecastUnits": 93407,
+              "mae": 78.69,
+              "rmse": 118.89,
+              "wape": 0.5048,
+              "wapePct": 50.48,
+              "accuracyPct": 49.52,
+              "bias": -0.1428,
+              "biasPct": -14.28
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 111523,
+              "forecastUnits": 94250,
+              "mae": 79.62,
+              "rmse": 117.47,
+              "wape": 0.5005,
+              "wapePct": 50.05,
+              "accuracyPct": 49.95,
+              "bias": -0.1549,
+              "biasPct": -15.49
+            }
+          }
+        },
+        "8": {
+          "target": "future8wDemand",
+          "selectedParams": {
+            "max_depth": 2,
+            "n_estimators": 100,
+            "learning_rate": 0.06,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 4,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1090302,
+              "forecastUnits": 948030,
+              "mae": 117.81,
+              "rmse": 169.72,
+              "wape": 0.3529,
+              "wapePct": 35.29,
+              "accuracyPct": 64.71,
+              "bias": -0.1305,
+              "biasPct": -13.05
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 229228,
+              "forecastUnits": 207405,
+              "mae": 154.04,
+              "rmse": 227.92,
+              "wape": 0.4697,
+              "wapePct": 46.97,
+              "accuracyPct": 53.03,
+              "bias": -0.0952,
+              "biasPct": -9.52
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 224654,
+              "forecastUnits": 205943,
+              "mae": 152.83,
+              "rmse": 233.58,
+              "wape": 0.4769,
+              "wapePct": 47.69,
+              "accuracyPct": 52.31,
+              "bias": -0.0833,
+              "biasPct": -8.33
+            }
+          }
+        },
+        "12": {
+          "target": "future12wDemand",
+          "selectedParams": {
+            "max_depth": 3,
+            "n_estimators": 120,
+            "learning_rate": 0.05,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9
+          },
+          "attrDimsUsed": 4,
+          "imageDimsUsed": 16,
+          "split": {
+            "train": {
+              "samples": 3266,
+              "products": 3266,
+              "actualUnits": 1467228,
+              "forecastUnits": 1315938,
+              "mae": 133.54,
+              "rmse": 199.62,
+              "wape": 0.2973,
+              "wapePct": 29.73,
+              "accuracyPct": 70.27,
+              "bias": -0.1031,
+              "biasPct": -10.31
+            },
+            "validation": {
+              "samples": 699,
+              "products": 699,
+              "actualUnits": 313967,
+              "forecastUnits": 279029,
+              "mae": 203.47,
+              "rmse": 326.56,
+              "wape": 0.453,
+              "wapePct": 45.3,
+              "accuracyPct": 54.7,
+              "bias": -0.1113,
+              "biasPct": -11.13
+            },
+            "test": {
+              "samples": 701,
+              "products": 701,
+              "actualUnits": 299810,
+              "forecastUnits": 277654,
+              "mae": 198.24,
+              "rmse": 362.01,
+              "wape": 0.4635,
+              "wapePct": 46.35,
+              "accuracyPct": 53.65,
+              "bias": -0.0739,
+              "biasPct": -7.39
+            }
+          }
+        }
+      }
+    }
+  ]
+}
