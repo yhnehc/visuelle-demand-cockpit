@@ -302,30 +302,93 @@ def make_new_product_rows(products):
     return rows
 
 
+def trend_features_from_observed(observed):
+    observed = [float(value) for value in observed]
+    total_units = sum(observed)
+    count = len(observed)
+    if not count:
+        return {}
+
+    peak_units = max(observed)
+    peak_week = observed.index(peak_units)
+    last_units = observed[-1]
+    recent4 = observed[-4:]
+    previous4 = observed[-8:-4] if count >= 8 else []
+    recent8 = observed[-8:]
+    recent12 = observed[-12:]
+    first_half = observed[:max(1, count // 2)]
+    second_half = observed[max(1, count // 2):] or observed[-1:]
+    first_half_avg = sum(first_half) / len(first_half)
+    second_half_avg = sum(second_half) / len(second_half)
+    recent4_total = sum(recent4)
+    previous4_total = sum(previous4)
+    recent4_avg = recent4_total / max(1, len(recent4))
+
+    low_sales_run = 0
+    for value in reversed(observed):
+        if peak_units and value <= peak_units * 0.1:
+            low_sales_run += 1
+        else:
+            break
+
+    x = np.arange(count, dtype=float)
+    y = np.array(observed, dtype=float)
+    lifecycle_slope = float(np.polyfit(x, y, 1)[0]) if count >= 2 else 0.0
+    tail_window = min(8, count)
+    tail_x = np.arange(tail_window, dtype=float)
+    tail_y = np.array(observed[-tail_window:], dtype=float)
+    tail_slope = float(np.polyfit(tail_x, tail_y, 1)[0]) if tail_window >= 2 else 0.0
+
+    return {
+        "lifecycle_units_to_date": total_units,
+        "lifecycle_avg_weekly_units": total_units / count,
+        "observed4w_units": recent4_total,
+        "observed_first2w_units": sum(recent4[:2]),
+        "observed_last2w_units": sum(recent4[2:]),
+        "observed_trend_ratio": sum(recent4[2:]) / sum(recent4[:2]) if sum(recent4[:2]) > 0 else 1,
+        "previous4w_units": previous4_total,
+        "recent4_to_previous4_ratio": recent4_total / previous4_total if previous4_total > 0 else 1,
+        "recent8w_units": sum(recent8),
+        "recent12w_units": sum(recent12),
+        "peak_units_to_date": peak_units,
+        "peak_week": peak_week,
+        "peak_week_ratio": peak_week / max(1, count - 1),
+        "weeks_since_peak": (count - 1) - peak_week,
+        "recent4_to_peak_ratio": recent4_avg / peak_units if peak_units > 0 else 1,
+        "last_week_to_peak_ratio": last_units / peak_units if peak_units > 0 else 1,
+        "last_week_to_lifecycle_avg_ratio": last_units / (total_units / count) if total_units > 0 else 1,
+        "recent4_share_of_lifecycle": recent4_total / total_units if total_units > 0 else 0,
+        "recent8_share_of_lifecycle": sum(recent8) / total_units if total_units > 0 else 0,
+        "recent12_share_of_lifecycle": sum(recent12) / total_units if total_units > 0 else 0,
+        "second_half_to_first_half_ratio": second_half_avg / first_half_avg if first_half_avg > 0 else 1,
+        "lifecycle_slope_per_week": lifecycle_slope,
+        "tail_slope_per_week": tail_slope,
+        "lifecycle_slope_ratio": lifecycle_slope / peak_units if peak_units > 0 else 0,
+        "tail_slope_ratio": tail_slope / peak_units if peak_units > 0 else 0,
+        "low_sales_run_weeks": low_sales_run,
+    }
+
+
 def make_existing_rows(products, price_map, store_map, trend_rows):
     rows = []
     for product in products.values():
         weekly = product["weekly"]
         max_week = max(weekly) if weekly else -1
         for cutoff in range(3, max_week - 12 + 1):
-            if not all(w in weekly for w in range(cutoff - 3, cutoff + 13)):
+            if not all(w in weekly for w in range(0, cutoff + 13)):
                 continue
             recent = [weekly[w] for w in range(cutoff - 3, cutoff + 1)]
-            first2 = recent[0] + recent[1]
-            last2 = recent[2] + recent[3]
+            observed = [weekly[w] for w in range(0, cutoff + 1)]
             total = sum(recent)
             row = {key: product[key] for key in ["external_code", "category", "color", "fabric", "release_date"]}
             row.update({
                 "cutoff_week": cutoff,
-                "observed4w_units": total,
-                "observed_first2w_units": first2,
-                "observed_last2w_units": last2,
-                "observed_trend_ratio": last2 / first2 if first2 > 0 else 1,
                 "week0_share": recent[0] / max(1, total),
                 "week1_share": recent[1] / max(1, total),
                 "week2_share": recent[2] / max(1, total),
                 "week3_share": recent[3] / max(1, total),
             })
+            row.update(trend_features_from_observed(observed))
             row.update(price_map.get(product["external_code"], {}))
             row.update(store_map.get(product["external_code"], {}))
             row.update(trend_features(product, trend_rows, cutoff))
@@ -353,10 +416,32 @@ def base_existing_features(row, group_model=None):
         "category": row["category"],
         "color": row["color"],
         "fabric": row["fabric"],
+        "log_cutoff_week": math.log1p(row.get("cutoff_week", 0)),
+        "log_lifecycle_units_to_date": math.log1p(row.get("lifecycle_units_to_date", 0)),
+        "log_lifecycle_avg_weekly_units": math.log1p(row.get("lifecycle_avg_weekly_units", 0)),
         "log_observed4w_units": math.log1p(row.get("observed4w_units", 0)),
         "log_observed_first2w_units": math.log1p(row.get("observed_first2w_units", 0)),
         "log_observed_last2w_units": math.log1p(row.get("observed_last2w_units", 0)),
+        "log_previous4w_units": math.log1p(row.get("previous4w_units", 0)),
+        "recent4_to_previous4_ratio_capped": max(0, min(5, row.get("recent4_to_previous4_ratio", 1))),
+        "log_recent8w_units": math.log1p(row.get("recent8w_units", 0)),
+        "log_recent12w_units": math.log1p(row.get("recent12w_units", 0)),
         "observed_trend_ratio_capped": max(0, min(5, row.get("observed_trend_ratio", 1))),
+        "log_peak_units_to_date": math.log1p(row.get("peak_units_to_date", 0)),
+        "peak_week_ratio": row.get("peak_week_ratio", 0),
+        "log_weeks_since_peak": math.log1p(row.get("weeks_since_peak", 0)),
+        "recent4_to_peak_ratio": max(0, min(2, row.get("recent4_to_peak_ratio", 1))),
+        "last_week_to_peak_ratio": max(0, min(2, row.get("last_week_to_peak_ratio", 1))),
+        "last_week_to_lifecycle_avg_ratio": max(0, min(5, row.get("last_week_to_lifecycle_avg_ratio", 1))),
+        "recent4_share_of_lifecycle": row.get("recent4_share_of_lifecycle", 0),
+        "recent8_share_of_lifecycle": row.get("recent8_share_of_lifecycle", 0),
+        "recent12_share_of_lifecycle": row.get("recent12_share_of_lifecycle", 0),
+        "second_half_to_first_half_ratio_capped": max(0, min(5, row.get("second_half_to_first_half_ratio", 1))),
+        "lifecycle_slope_per_week": row.get("lifecycle_slope_per_week", 0),
+        "tail_slope_per_week": row.get("tail_slope_per_week", 0),
+        "lifecycle_slope_ratio": row.get("lifecycle_slope_ratio", 0),
+        "tail_slope_ratio": row.get("tail_slope_ratio", 0),
+        "log_low_sales_run_weeks": math.log1p(row.get("low_sales_run_weeks", 0)),
         "week0_share": row.get("week0_share", 0),
         "week1_share": row.get("week1_share", 0),
         "week2_share": row.get("week2_share", 0),
@@ -375,6 +460,28 @@ def base_existing_features(row, group_model=None):
     if group_model:
         features.update(group_features(row, group_model))
     return features
+
+
+def lifecycle_guardrail(row, horizon, prediction):
+    recent_total = row.get("observed4w_units", 0)
+    previous_total = row.get("previous4w_units", 0)
+    trend_ratio = row.get("observed_trend_ratio", 1)
+    recent_to_peak = row.get("recent4_to_peak_ratio", 1)
+    last_to_peak = row.get("last_week_to_peak_ratio", 1)
+    weeks_since_peak = row.get("weeks_since_peak", 0)
+    low_sales_run = row.get("low_sales_run_weeks", 0)
+    cutoff_week = row.get("cutoff_week", 0)
+
+    is_late_lifecycle = cutoff_week >= 12 and weeks_since_peak >= 4
+    is_declining = trend_ratio < 0.85 or (previous_total > 0 and recent_total / previous_total < 0.65)
+    is_tail = recent_to_peak < 0.12 or last_to_peak < 0.05 or low_sales_run >= 3
+    if not (is_late_lifecycle and is_declining and is_tail):
+        return max(0, round(prediction))
+
+    horizon_multiplier = {4: 1.4, 8: 2.2, 12: 2.8}[horizon]
+    floor_units = {4: 4, 8: 6, 12: 8}[horizon]
+    cap = max(floor_units, recent_total * horizon_multiplier)
+    return max(0, round(min(prediction, cap)))
 
 
 def train_family(rows, target_prefix, feature_builder):
@@ -432,8 +539,6 @@ def demo_existing_predictions(demo_products, trained_existing, price_map, store_
         if len(actual) < 4:
             continue
         recent = actual[-4:]
-        first2 = recent[0] + recent[1]
-        last2 = recent[2] + recent[3]
         total = sum(recent)
         row = {
             "external_code": str(product["id"]),
@@ -442,10 +547,6 @@ def demo_existing_predictions(demo_products, trained_existing, price_map, store_
             "fabric": product["fabric"],
             "release_date": product.get("releaseDate", "1970-01-01"),
             "cutoff_week": len(actual) - 1,
-            "observed4w_units": total,
-            "observed_first2w_units": first2,
-            "observed_last2w_units": last2,
-            "observed_trend_ratio": last2 / first2 if first2 > 0 else 1,
             "week0_share": recent[0] / max(1, total),
             "week1_share": recent[1] / max(1, total),
             "week2_share": recent[2] / max(1, total),
@@ -457,6 +558,7 @@ def demo_existing_predictions(demo_products, trained_existing, price_map, store_
             "restock_signal": product.get("restockEvents", 0),
             "restock_store_rows": product.get("restockEvents", 0),
         }
+        row.update(trend_features_from_observed(actual))
         trend = product.get("googleTrendSignal", {})
         trend_value = trend.get("forecastAvg", trend.get("recentAvg", 0)) or 0
         row.update({
@@ -470,7 +572,7 @@ def demo_existing_predictions(demo_products, trained_existing, price_map, store_
             features = [base_existing_features(row, model_pack["group_model"])]
             x = model_pack["vectorizer"].transform(features)
             prediction = float(np.expm1(model_pack["model"].predict(x))[0])
-            predictions[str(product["id"])][f"next{horizon}wDemand"] = max(0, round(prediction))
+            predictions[str(product["id"])][f"next{horizon}wDemand"] = lifecycle_guardrail(row, int(horizon), prediction)
     return predictions
 
 
@@ -554,7 +656,17 @@ def main():
         "existingProductModel": {
             "problemDefinition": {
                 "userInput": "product_id",
-                "lookupBehavior": "product_id retrieves attributes, actual sales momentum, price/discount, store/restock signals, category benchmarks, and Google Trends",
+                "lookupBehavior": "product_id retrieves attributes, the full actual sales trend from W0 through the current cutoff week, lifecycle-stage features, price/discount, store/restock signals, category benchmarks, and Google Trends",
+                "actualTrendFeatures": [
+                    "lifecycle units to date",
+                    "current lifecycle week",
+                    "peak week and weeks since peak",
+                    "recent 4/8/12-week units",
+                    "recent units as share of full lifecycle",
+                    "recent sales versus peak sales",
+                    "full-lifecycle slope and tail slope",
+                    "consecutive low-sales weeks"
+                ],
                 "outputs": ["next4wDemand", "next8wDemand", "next12wDemand"],
             },
             "samples": len(existing_rows),

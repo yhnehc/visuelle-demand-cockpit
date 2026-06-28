@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-28T04:20:55.830594Z",
+  "generatedAt": "2026-06-28T04:57:28.189259Z",
   "modelType": "XGBoost Regressor",
   "newProductModel": {
     "problemDefinition": {
@@ -441,22 +441,32 @@
   "existingProductModel": {
     "problemDefinition": {
       "userInput": "product_id",
-      "lookupBehavior": "product_id retrieves attributes, actual sales momentum, price/discount, store/restock signals, category benchmarks, and Google Trends",
+      "lookupBehavior": "product_id retrieves attributes, the full actual sales trend from W0 through the current cutoff week, lifecycle-stage features, price/discount, store/restock signals, category benchmarks, and Google Trends",
+      "actualTrendFeatures": [
+        "lifecycle units to date",
+        "current lifecycle week",
+        "peak week and weeks since peak",
+        "recent 4/8/12-week units",
+        "recent units as share of full lifecycle",
+        "recent sales versus peak sales",
+        "full-lifecycle slope and tail slope",
+        "consecutive low-sales weeks"
+      ],
       "outputs": [
         "next4wDemand",
         "next8wDemand",
         "next12wDemand"
       ]
     },
-    "samples": 19467,
+    "samples": 18957,
     "splitPolicy": {
       "method": "Product-level deterministic 70/15/15 split by external_code hash",
-      "trainProducts": 2466,
-      "validationProducts": 528,
-      "testProducts": 530,
-      "trainSamples": 13673,
-      "validationSamples": 3053,
-      "testSamples": 2741
+      "trainProducts": 2391,
+      "validationProducts": 512,
+      "testProducts": 514,
+      "trainSamples": 13334,
+      "validationSamples": 2961,
+      "testSamples": 2662
     },
     "horizons": {
       "4": {
@@ -465,55 +475,75 @@
           "type": "XGBoost Regressor",
           "targetMode": "log1p",
           "params": {
-            "max_depth": 3,
-            "n_estimators": 180,
+            "max_depth": 4,
+            "n_estimators": 140,
             "learning_rate": 0.04,
-            "subsample": 0.9,
-            "colsample_bytree": 0.9
+            "subsample": 0.85,
+            "colsample_bytree": 0.85
           }
         },
         "split": {
           "train": {
-            "samples": 13673,
-            "products": 2466,
-            "actualUnits": 2007479,
-            "forecastUnits": 1847049,
-            "mae": 37.95,
-            "rmse": 63.7,
-            "wape": 0.2585,
-            "wapePct": 25.85,
-            "accuracyPct": 74.15,
-            "bias": -0.0799,
-            "biasPct": -7.99
+            "samples": 13334,
+            "products": 2391,
+            "actualUnits": 1943555,
+            "forecastUnits": 1814268,
+            "mae": 33.18,
+            "rmse": 56.89,
+            "wape": 0.2276,
+            "wapePct": 22.76,
+            "accuracyPct": 77.24,
+            "bias": -0.0665,
+            "biasPct": -6.65
           },
           "validation": {
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 487401,
-            "forecastUnits": 445226,
-            "mae": 41.94,
-            "rmse": 73.23,
-            "wape": 0.2627,
-            "wapePct": 26.27,
-            "accuracyPct": 73.73,
-            "bias": -0.0865,
-            "biasPct": -8.65
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 471036,
+            "forecastUnits": 428008,
+            "mae": 38.21,
+            "rmse": 71.99,
+            "wape": 0.2402,
+            "wapePct": 24.02,
+            "accuracyPct": 75.98,
+            "bias": -0.0913,
+            "biasPct": -9.13
           },
           "test": {
-            "samples": 2741,
-            "products": 530,
-            "actualUnits": 434963,
-            "forecastUnits": 396655,
-            "mae": 45.95,
-            "rmse": 105.47,
-            "wape": 0.2896,
-            "wapePct": 28.96,
-            "accuracyPct": 71.04,
-            "bias": -0.0881,
-            "biasPct": -8.81
+            "samples": 2662,
+            "products": 514,
+            "actualUnits": 423944,
+            "forecastUnits": 388029,
+            "mae": 42.69,
+            "rmse": 107.41,
+            "wape": 0.2681,
+            "wapePct": 26.81,
+            "accuracyPct": 73.19,
+            "bias": -0.0847,
+            "biasPct": -8.47
           }
         },
         "validationTuning": [
+          {
+            "params": {
+              "max_depth": 4,
+              "n_estimators": 140,
+              "learning_rate": 0.04,
+              "subsample": 0.85,
+              "colsample_bytree": 0.85
+            },
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 471036,
+            "forecastUnits": 428008,
+            "mae": 38.21,
+            "rmse": 71.99,
+            "wape": 0.2402,
+            "wapePct": 24.02,
+            "accuracyPct": 75.98,
+            "bias": -0.0913,
+            "biasPct": -9.13
+          },
           {
             "params": {
               "max_depth": 3,
@@ -522,17 +552,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 487401,
-            "forecastUnits": 445226,
-            "mae": 41.94,
-            "rmse": 73.23,
-            "wape": 0.2627,
-            "wapePct": 26.27,
-            "accuracyPct": 73.73,
-            "bias": -0.0865,
-            "biasPct": -8.65
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 471036,
+            "forecastUnits": 429145,
+            "mae": 38.81,
+            "rmse": 73.07,
+            "wape": 0.2439,
+            "wapePct": 24.39,
+            "accuracyPct": 75.61,
+            "bias": -0.0889,
+            "biasPct": -8.89
           },
           {
             "params": {
@@ -542,37 +572,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 487401,
-            "forecastUnits": 440876,
-            "mae": 42.53,
-            "rmse": 74.6,
-            "wape": 0.2664,
-            "wapePct": 26.64,
-            "accuracyPct": 73.36,
-            "bias": -0.0955,
-            "biasPct": -9.55
-          },
-          {
-            "params": {
-              "max_depth": 4,
-              "n_estimators": 140,
-              "learning_rate": 0.04,
-              "subsample": 0.85,
-              "colsample_bytree": 0.85
-            },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 487401,
-            "forecastUnits": 439194,
-            "mae": 42.58,
-            "rmse": 77.4,
-            "wape": 0.2667,
-            "wapePct": 26.67,
-            "accuracyPct": 73.33,
-            "bias": -0.0989,
-            "biasPct": -9.89
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 471036,
+            "forecastUnits": 426570,
+            "mae": 39.29,
+            "rmse": 74.46,
+            "wape": 0.247,
+            "wapePct": 24.7,
+            "accuracyPct": 75.3,
+            "bias": -0.0944,
+            "biasPct": -9.44
           },
           {
             "params": {
@@ -582,17 +592,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 487401,
-            "forecastUnits": 430539,
-            "mae": 44.57,
-            "rmse": 81.12,
-            "wape": 0.2792,
-            "wapePct": 27.92,
-            "accuracyPct": 72.08,
-            "bias": -0.1167,
-            "biasPct": -11.67
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 471036,
+            "forecastUnits": 420635,
+            "mae": 41.64,
+            "rmse": 79.49,
+            "wape": 0.2618,
+            "wapePct": 26.18,
+            "accuracyPct": 73.82,
+            "bias": -0.107,
+            "biasPct": -10.7
           }
         ]
       },
@@ -611,43 +621,43 @@
         },
         "split": {
           "train": {
-            "samples": 13673,
-            "products": 2466,
-            "actualUnits": 3549174,
-            "forecastUnits": 3324830,
-            "mae": 57.38,
-            "rmse": 92.67,
-            "wape": 0.2211,
-            "wapePct": 22.11,
-            "accuracyPct": 77.89,
-            "bias": -0.0632,
-            "biasPct": -6.32
+            "samples": 13334,
+            "products": 2391,
+            "actualUnits": 3443312,
+            "forecastUnits": 3252115,
+            "mae": 49.95,
+            "rmse": 82.9,
+            "wape": 0.1934,
+            "wapePct": 19.34,
+            "accuracyPct": 80.66,
+            "bias": -0.0555,
+            "biasPct": -5.55
           },
           "validation": {
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 846242,
-            "forecastUnits": 785118,
-            "mae": 73.51,
-            "rmse": 136.11,
-            "wape": 0.2652,
-            "wapePct": 26.52,
-            "accuracyPct": 73.48,
-            "bias": -0.0722,
-            "biasPct": -7.22
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 818300,
+            "forecastUnits": 763932,
+            "mae": 62.81,
+            "rmse": 122.66,
+            "wape": 0.2273,
+            "wapePct": 22.73,
+            "accuracyPct": 77.27,
+            "bias": -0.0664,
+            "biasPct": -6.64
           },
           "test": {
-            "samples": 2741,
-            "products": 530,
-            "actualUnits": 769747,
-            "forecastUnits": 710545,
-            "mae": 80.39,
-            "rmse": 178.27,
-            "wape": 0.2862,
-            "wapePct": 28.62,
-            "accuracyPct": 71.38,
-            "bias": -0.0769,
-            "biasPct": -7.69
+            "samples": 2662,
+            "products": 514,
+            "actualUnits": 750719,
+            "forecastUnits": 694385,
+            "mae": 71.82,
+            "rmse": 172.66,
+            "wape": 0.2547,
+            "wapePct": 25.47,
+            "accuracyPct": 74.53,
+            "bias": -0.075,
+            "biasPct": -7.5
           }
         },
         "validationTuning": [
@@ -659,17 +669,17 @@
               "subsample": 0.85,
               "colsample_bytree": 0.85
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 846242,
-            "forecastUnits": 785118,
-            "mae": 73.51,
-            "rmse": 136.11,
-            "wape": 0.2652,
-            "wapePct": 26.52,
-            "accuracyPct": 73.48,
-            "bias": -0.0722,
-            "biasPct": -7.22
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 818300,
+            "forecastUnits": 763932,
+            "mae": 62.81,
+            "rmse": 122.66,
+            "wape": 0.2273,
+            "wapePct": 22.73,
+            "accuracyPct": 77.27,
+            "bias": -0.0664,
+            "biasPct": -6.64
           },
           {
             "params": {
@@ -679,17 +689,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 846242,
-            "forecastUnits": 781854,
-            "mae": 74.97,
-            "rmse": 138.1,
-            "wape": 0.2705,
-            "wapePct": 27.05,
-            "accuracyPct": 72.95,
-            "bias": -0.0761,
-            "biasPct": -7.61
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 818300,
+            "forecastUnits": 768061,
+            "mae": 63.15,
+            "rmse": 118.91,
+            "wape": 0.2285,
+            "wapePct": 22.85,
+            "accuracyPct": 77.15,
+            "bias": -0.0614,
+            "biasPct": -6.14
           },
           {
             "params": {
@@ -699,17 +709,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 846242,
-            "forecastUnits": 774975,
-            "mae": 76.32,
-            "rmse": 144.5,
-            "wape": 0.2753,
-            "wapePct": 27.53,
-            "accuracyPct": 72.47,
-            "bias": -0.0842,
-            "biasPct": -8.42
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 818300,
+            "forecastUnits": 763498,
+            "mae": 64.7,
+            "rmse": 124.14,
+            "wape": 0.2341,
+            "wapePct": 23.41,
+            "accuracyPct": 76.59,
+            "bias": -0.067,
+            "biasPct": -6.7
           },
           {
             "params": {
@@ -719,17 +729,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 846242,
-            "forecastUnits": 767861,
-            "mae": 78.08,
-            "rmse": 147.29,
-            "wape": 0.2817,
-            "wapePct": 28.17,
-            "accuracyPct": 71.83,
-            "bias": -0.0926,
-            "biasPct": -9.26
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 818300,
+            "forecastUnits": 751203,
+            "mae": 68.52,
+            "rmse": 132.91,
+            "wape": 0.2479,
+            "wapePct": 24.79,
+            "accuracyPct": 75.21,
+            "bias": -0.082,
+            "biasPct": -8.2
           }
         ]
       },
@@ -748,41 +758,41 @@
         },
         "split": {
           "train": {
-            "samples": 13673,
-            "products": 2466,
-            "actualUnits": 4619323,
-            "forecastUnits": 4363469,
-            "mae": 69.48,
-            "rmse": 105.48,
-            "wape": 0.2057,
-            "wapePct": 20.57,
-            "accuracyPct": 79.43,
-            "bias": -0.0554,
-            "biasPct": -5.54
+            "samples": 13334,
+            "products": 2391,
+            "actualUnits": 4487557,
+            "forecastUnits": 4265669,
+            "mae": 59.73,
+            "rmse": 91.02,
+            "wape": 0.1775,
+            "wapePct": 17.75,
+            "accuracyPct": 82.25,
+            "bias": -0.0494,
+            "biasPct": -4.94
           },
           "validation": {
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 1065989,
-            "forecastUnits": 1016206,
-            "mae": 86.33,
-            "rmse": 152.46,
-            "wape": 0.2473,
-            "wapePct": 24.73,
-            "accuracyPct": 75.27,
-            "bias": -0.0467,
-            "biasPct": -4.67
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 1031668,
+            "forecastUnits": 993338,
+            "mae": 74.39,
+            "rmse": 137.79,
+            "wape": 0.2135,
+            "wapePct": 21.35,
+            "accuracyPct": 78.65,
+            "bias": -0.0372,
+            "biasPct": -3.72
           },
           "test": {
-            "samples": 2741,
-            "products": 530,
-            "actualUnits": 1000335,
-            "forecastUnits": 934656,
-            "mae": 102.01,
-            "rmse": 199.31,
-            "wape": 0.2795,
-            "wapePct": 27.95,
-            "accuracyPct": 72.05,
+            "samples": 2662,
+            "products": 514,
+            "actualUnits": 975106,
+            "forecastUnits": 911051,
+            "mae": 93.08,
+            "rmse": 192.84,
+            "wape": 0.2541,
+            "wapePct": 25.41,
+            "accuracyPct": 74.59,
             "bias": -0.0657,
             "biasPct": -6.57
           }
@@ -796,17 +806,17 @@
               "subsample": 0.85,
               "colsample_bytree": 0.85
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 1065989,
-            "forecastUnits": 1016206,
-            "mae": 86.33,
-            "rmse": 152.46,
-            "wape": 0.2473,
-            "wapePct": 24.73,
-            "accuracyPct": 75.27,
-            "bias": -0.0467,
-            "biasPct": -4.67
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 1031668,
+            "forecastUnits": 993338,
+            "mae": 74.39,
+            "rmse": 137.79,
+            "wape": 0.2135,
+            "wapePct": 21.35,
+            "accuracyPct": 78.65,
+            "bias": -0.0372,
+            "biasPct": -3.72
           },
           {
             "params": {
@@ -816,17 +826,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 1065989,
-            "forecastUnits": 1016883,
-            "mae": 87.62,
-            "rmse": 152.37,
-            "wape": 0.251,
-            "wapePct": 25.1,
-            "accuracyPct": 74.9,
-            "bias": -0.0461,
-            "biasPct": -4.61
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 1031668,
+            "forecastUnits": 990422,
+            "mae": 77.37,
+            "rmse": 146.4,
+            "wape": 0.2221,
+            "wapePct": 22.21,
+            "accuracyPct": 77.79,
+            "bias": -0.04,
+            "biasPct": -4.0
           },
           {
             "params": {
@@ -836,17 +846,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 1065989,
-            "forecastUnits": 1007358,
-            "mae": 89.36,
-            "rmse": 160.54,
-            "wape": 0.2559,
-            "wapePct": 25.59,
-            "accuracyPct": 74.41,
-            "bias": -0.055,
-            "biasPct": -5.5
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 1031668,
+            "forecastUnits": 990466,
+            "mae": 78.25,
+            "rmse": 145.15,
+            "wape": 0.2246,
+            "wapePct": 22.46,
+            "accuracyPct": 77.54,
+            "bias": -0.0399,
+            "biasPct": -3.99
           },
           {
             "params": {
@@ -856,17 +866,17 @@
               "subsample": 0.9,
               "colsample_bytree": 0.9
             },
-            "samples": 3053,
-            "products": 528,
-            "actualUnits": 1065989,
-            "forecastUnits": 1003072,
-            "mae": 91.83,
-            "rmse": 163.59,
-            "wape": 0.263,
-            "wapePct": 26.3,
-            "accuracyPct": 73.7,
-            "bias": -0.059,
-            "biasPct": -5.9
+            "samples": 2961,
+            "products": 512,
+            "actualUnits": 1031668,
+            "forecastUnits": 979544,
+            "mae": 82.02,
+            "rmse": 147.78,
+            "wape": 0.2354,
+            "wapePct": 23.54,
+            "accuracyPct": 76.46,
+            "bias": -0.0505,
+            "biasPct": -5.05
           }
         ]
       }

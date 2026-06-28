@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-28T04:20:55.830594Z",
+  "generatedAt": "2026-06-28T04:57:28.189259Z",
   "modelType": "XGBoost Regressor",
   "userInput": "product_id",
   "outputs": [
@@ -9,60 +9,60 @@
   ],
   "predictionsByProductId": {
     "5180": {
-      "next4wDemand": 73,
-      "next8wDemand": 229,
-      "next12wDemand": 454
+      "next4wDemand": 11,
+      "next8wDemand": 18,
+      "next12wDemand": 22
     },
     "2476": {
-      "next4wDemand": 84,
-      "next8wDemand": 204,
-      "next12wDemand": 317
+      "next4wDemand": 14,
+      "next8wDemand": 22,
+      "next12wDemand": 28
     },
     "3403": {
-      "next4wDemand": 85,
-      "next8wDemand": 343,
-      "next12wDemand": 454
+      "next4wDemand": 34,
+      "next8wDemand": 53,
+      "next12wDemand": 67
     },
     "5093": {
-      "next4wDemand": 74,
-      "next8wDemand": 299,
-      "next12wDemand": 477
+      "next4wDemand": 49,
+      "next8wDemand": 77,
+      "next12wDemand": 98
     },
     "3642": {
-      "next4wDemand": 71,
-      "next8wDemand": 263,
-      "next12wDemand": 349
+      "next4wDemand": 116,
+      "next8wDemand": 379,
+      "next12wDemand": 356
     },
     "5114": {
-      "next4wDemand": 83,
-      "next8wDemand": 251,
-      "next12wDemand": 431
+      "next4wDemand": 59,
+      "next8wDemand": 132,
+      "next12wDemand": 168
     },
     "3331": {
-      "next4wDemand": 79,
-      "next8wDemand": 300,
-      "next12wDemand": 403
+      "next4wDemand": 68,
+      "next8wDemand": 132,
+      "next12wDemand": 168
     },
     "4216": {
-      "next4wDemand": 74,
-      "next8wDemand": 265,
-      "next12wDemand": 422
+      "next4wDemand": 48,
+      "next8wDemand": 114,
+      "next12wDemand": 146
     }
   },
   "validationSummary": {
     "4": {
-      "testWapePct": 28.96,
-      "testAccuracyPct": 71.04,
-      "testBiasPct": -8.81
+      "testWapePct": 26.81,
+      "testAccuracyPct": 73.19,
+      "testBiasPct": -8.47
     },
     "8": {
-      "testWapePct": 28.62,
-      "testAccuracyPct": 71.38,
-      "testBiasPct": -7.69
+      "testWapePct": 25.47,
+      "testAccuracyPct": 74.53,
+      "testBiasPct": -7.5
     },
     "12": {
-      "testWapePct": 27.95,
-      "testAccuracyPct": 72.05,
+      "testWapePct": 25.41,
+      "testAccuracyPct": 74.59,
       "testBiasPct": -6.57
     }
   }
