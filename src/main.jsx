@@ -444,6 +444,18 @@ function predictExistingDemand(product, existingModel, horizon) {
   return Math.max(0, transformed * (horizonModel.calibration || 1));
 }
 
+function existingModelPredictions(product, existingModel) {
+  const next4w = predictExistingDemand(product, existingModel, 4);
+  const next8wRaw = predictExistingDemand(product, existingModel, 8);
+  const next12wRaw = predictExistingDemand(product, existingModel, 12);
+  if (![next4w, next8wRaw, next12wRaw].every(Number.isFinite)) {
+    return { next4w: null, next8w: null, next12w: null };
+  }
+  const next8w = Math.max(next4w, next8wRaw);
+  const next12w = Math.max(next8w, next12wRaw);
+  return { next4w, next8w, next12w };
+}
+
 function existingModelCategoryBenchmark(product, existingModel, horizon) {
   const horizonModel = existingModel?.horizons?.[String(horizon)];
   const stat = horizonModel?.categoryBenchmark?.stats?.[product.category];
@@ -455,8 +467,25 @@ function existingModelCategoryBenchmark(product, existingModel, horizon) {
 
 function calculateExistingProductForecast(product, matchedAnalogs, catalog, existingModel) {
   const analogForecast = calculateExistingAnalogForecast(product, matchedAnalogs, catalog);
-  const modelTotal12 = predictExistingDemand(product, existingModel, 12);
-  if (!Number.isFinite(modelTotal12) || !analogForecast.points.length) return analogForecast;
+  const modelPredictions = existingModelPredictions(product, existingModel);
+  const modelTotal12 = modelPredictions.next12w;
+  if (!Number.isFinite(modelTotal12)) {
+    return {
+      ...analogForecast,
+      points: [],
+      top: [],
+      bottom: [],
+      total: 0,
+      baseTotal: 0,
+      window: "Model unavailable",
+      source: "ML model unavailable",
+      modelPredictions: {
+        ...modelPredictions,
+        categoryBenchmarkNext12: existingModelCategoryBenchmark(product, existingModel, 12),
+      },
+      confidenceScore: 0,
+    };
+  }
 
   const analogTotal = analogForecast.total || 1;
   const scale = modelTotal12 / analogTotal;
@@ -475,9 +504,7 @@ function calculateExistingProductForecast(product, matchedAnalogs, catalog, exis
     baseTotal: Math.round(modelTotal12),
     source: "ML model",
     modelPredictions: {
-      next4w: predictExistingDemand(product, existingModel, 4),
-      next8w: predictExistingDemand(product, existingModel, 8),
-      next12w: modelTotal12,
+      ...modelPredictions,
       categoryBenchmarkNext12: existingModelCategoryBenchmark(product, existingModel, 12),
       testAccuracyPct: validation?.testAccuracyPct,
       testWapePct: validation?.testWapePct,

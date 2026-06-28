@@ -484,6 +484,16 @@ def lifecycle_guardrail(row, horizon, prediction):
     return max(0, round(min(prediction, cap)))
 
 
+def enforce_cumulative_horizons(predictions):
+    next4 = max(0, round(predictions.get("next4wDemand", 0)))
+    next8 = max(next4, round(predictions.get("next8wDemand", 0)))
+    next12 = max(next8, round(predictions.get("next12wDemand", 0)))
+    predictions["next4wDemand"] = next4
+    predictions["next8wDemand"] = next8
+    predictions["next12wDemand"] = next12
+    return predictions
+
+
 def train_family(rows, target_prefix, feature_builder):
     split_map = split_ids(sorted({row["external_code"] for row in rows}))
     for row in rows:
@@ -573,6 +583,7 @@ def demo_existing_predictions(demo_products, trained_existing, price_map, store_
             x = model_pack["vectorizer"].transform(features)
             prediction = float(np.expm1(model_pack["model"].predict(x))[0])
             predictions[str(product["id"])][f"next{horizon}wDemand"] = lifecycle_guardrail(row, int(horizon), prediction)
+        predictions[str(product["id"])] = enforce_cumulative_horizons(predictions[str(product["id"])])
     return predictions
 
 

@@ -24,20 +24,6 @@
         743,
         409
       ],
-      "futureForecast": [
-        471,
-        429,
-        387,
-        345,
-        305,
-        267,
-        232,
-        200,
-        171,
-        146,
-        126,
-        109
-      ],
       "early2": 707,
       "total12": 6120,
       "avgDiscount": 0.118,
@@ -49,7 +35,6 @@
         "categoryTopQuartile": 880,
         "earlyMedian": 83
       },
-      "futureTotal4": 2108,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -1292,7 +1277,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 3188,
       "actualLifecycle": [
         126,
         369,
@@ -1371,20 +1355,6 @@
         529,
         270
       ],
-      "futureForecast": [
-        307,
-        280,
-        252,
-        225,
-        199,
-        174,
-        151,
-        130,
-        111,
-        95,
-        82,
-        71
-      ],
       "early2": 776,
       "total12": 4786,
       "avgDiscount": 0.1,
@@ -1396,7 +1366,6 @@
         "categoryTopQuartile": 880,
         "earlyMedian": 83
       },
-      "futureTotal4": 1359,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -2447,7 +2416,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 2077,
       "actualLifecycle": [
         312,
         355,
@@ -2525,20 +2493,6 @@
         509,
         272
       ],
-      "futureForecast": [
-        317,
-        289,
-        260,
-        233,
-        206,
-        180,
-        156,
-        135,
-        115,
-        99,
-        85,
-        74
-      ],
       "early2": 457,
       "total12": 4626,
       "avgDiscount": 0.115,
@@ -2550,7 +2504,6 @@
         "categoryTopQuartile": 820,
         "earlyMedian": 83
       },
-      "futureTotal4": 1439,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -3709,7 +3662,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 2149,
       "actualLifecycle": [
         109,
         209,
@@ -3787,20 +3739,6 @@
         420,
         472
       ],
-      "futureForecast": [
-        453,
-        414,
-        374,
-        333,
-        292,
-        254,
-        217,
-        184,
-        154,
-        129,
-        109,
-        92
-      ],
       "early2": 349,
       "total12": 4054,
       "avgDiscount": 0.099,
@@ -3812,7 +3750,6 @@
         "categoryTopQuartile": 340,
         "earlyMedian": 49
       },
-      "futureTotal4": 1354,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -5067,7 +5004,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 3005,
       "actualLifecycle": [
         108,
         162,
@@ -5148,20 +5084,6 @@
         5,
         1
       ],
-      "futureForecast": [
-        2,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0
-      ],
       "early2": 40,
       "total12": 128,
       "avgDiscount": 0.015,
@@ -5173,7 +5095,6 @@
         "categoryTopQuartile": 340,
         "earlyMedian": 49
       },
-      "futureTotal4": 8,
       "action": "Watch",
       "confidence": "Medium",
       "analogs": [
@@ -5804,7 +5725,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 10,
       "actualLifecycle": [
         13,
         44,
@@ -5901,20 +5821,6 @@
         622,
         412
       ],
-      "futureForecast": [
-        414,
-        378,
-        341,
-        304,
-        268,
-        234,
-        202,
-        172,
-        146,
-        124,
-        106,
-        91
-      ],
       "early2": 434,
       "total12": 4136,
       "avgDiscount": 0.092,
@@ -5926,7 +5832,6 @@
         "categoryTopQuartile": 880,
         "earlyMedian": 83
       },
-      "futureTotal4": 1587,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -7217,7 +7122,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 2780,
       "actualLifecycle": [
         100,
         196,
@@ -7295,20 +7199,6 @@
         491,
         475
       ],
-      "futureForecast": [
-        439,
-        401,
-        362,
-        323,
-        284,
-        246,
-        211,
-        179,
-        150,
-        126,
-        106,
-        90
-      ],
       "early2": 329,
       "total12": 3798,
       "avgDiscount": 0.114,
@@ -7320,7 +7210,6 @@
         "categoryTopQuartile": 600,
         "earlyMedian": 60
       },
-      "futureTotal4": 1355,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -8455,7 +8344,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 2917,
       "actualLifecycle": [
         9,
         93,
@@ -8534,20 +8422,6 @@
         496,
         751
       ],
-      "futureForecast": [
-        672,
-        615,
-        555,
-        494,
-        433,
-        374,
-        319,
-        268,
-        222,
-        185,
-        155,
-        130
-      ],
       "early2": 490,
       "total12": 3767,
       "avgDiscount": 0.048,
@@ -8559,7 +8433,6 @@
         "categoryTopQuartile": 591,
         "earlyMedian": 76
       },
-      "futureTotal4": 1637,
       "action": "Restock",
       "confidence": "High",
       "analogs": [
@@ -9814,7 +9687,6 @@
           "signal": "Allocation candidate"
         }
       ],
-      "futureTotal12": 4422,
       "actualLifecycle": [
         42,
         214,
