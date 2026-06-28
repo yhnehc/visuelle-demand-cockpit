@@ -66,8 +66,12 @@ input {
   margin-bottom: 26px;
 }
 
-.brand svg {
-  color: #7dd3c7;
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
 
 .brand strong,

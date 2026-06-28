@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   Bell,
   ArrowRightLeft,
-  Boxes,
   ChevronRight,
   Clock3,
   HelpCircle,
@@ -918,7 +917,7 @@ function ProductSelector({ products, selectedId, setSelectedId }) {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <Boxes size={22} />
+        <img className="brand-logo" src="/visuelle-icon.png" alt="" />
         <div><strong>Visuelle</strong><span>Demand Cockpit</span></div>
       </div>
       <label className="search"><Search size={16} /><input value="Historical products" readOnly /></label>
@@ -1556,6 +1555,7 @@ function App() {
   }, []);
 
   const product = useMemo(() => data?.products.find((item) => item.id === selectedId), [data, selectedId]);
+  const dataAsOf = data?.summary?.dataAsOf ? formatDate(data.summary.dataAsOf) : "N/A";
 
   if (!data || !product) return <div className="loading">Loading Visuelle demand signals...</div>;
 
@@ -1569,7 +1569,7 @@ function App() {
             <button className={mode === "new" ? "active" : ""} onClick={() => setMode("new")}>New product</button>
           </div>
           <div className="utility-bar">
-            <span>Data as of: May 10, 2025</span>
+            <span>Data as of: {dataAsOf}</span>
             <HelpCircle size={17} />
             <Bell size={17} />
             <strong>LP</strong>
