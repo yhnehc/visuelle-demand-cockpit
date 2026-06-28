@@ -642,6 +642,7 @@ function TrendChart({
   const start = highlightWeeks.length ? xFor(highlightWeeks[0]) : 0;
   const end = highlightWeeks.length ? xFor(highlightWeeks.at(-1)) : 0;
   const displayedTotal = totalValue ?? sumWeeks(Object.fromEntries(forecastPoints.map((p) => [p.week, p.value])), highlightWeeks);
+  const tileColumnCount = Math.max(1, maxWeek - minWeek + 1);
 
   return (
     <div className="panel chart-panel">
@@ -694,9 +695,13 @@ function TrendChart({
         {!!forecastPoints.length && <span><i className="forecast-key" /><TooltipLabel label="Forecast" body={forecastTooltip} /></span>}
         {!!bandPath && <span><i className="band-key" /><TooltipLabel label="Analog range" body={analogRangeTooltip} /></span>}
       </div>
-      <div className={`weekly-actuals ${tileMode === "twelve" ? "twelve-tiles" : ""}`}>
+      <div className={`weekly-actuals ${tileMode === "twelve" ? "twelve-tiles" : ""}`} style={{ "--tile-columns": tileColumnCount }}>
         {weeklyTiles.map((tile) => (
-          <div key={tile.label} className={tile.kind}>
+          <div
+            key={tile.label}
+            className={tile.kind}
+            style={Number.isFinite(tile.week) ? { gridColumn: `${tile.week - minWeek + 1} / span 1` } : undefined}
+          >
             <span>{tile.label}</span>
             <strong>{formatK(tile.value)}</strong>
           </div>
@@ -1176,9 +1181,9 @@ function ExistingProductView({ data, product, existingModel }) {
   const isModelForecast = forecast.source === "ML model";
   const forecastMilestonePoints = isModelForecast
     ? [
-      { week: actualEndWeek + 4, value: Math.round((next4wDemand || 0) / 4), total: Math.round(next4wDemand || 0), label: "Next 4w" },
-      { week: actualEndWeek + 8, value: Math.round((next8wDemand || 0) / 8), total: Math.round(next8wDemand || 0), label: "Next 8w" },
-      { week: actualEndWeek + 12, value: Math.round((next12wDemand || 0) / 12), total: Math.round(next12wDemand || 0), label: "Next 12w" },
+      { week: actualEndWeek + 4, value: Math.round(next4wDemand || 0), total: Math.round(next4wDemand || 0), label: "Next 4w" },
+      { week: actualEndWeek + 8, value: Math.round(next8wDemand || 0), total: Math.round(next8wDemand || 0), label: "Next 8w" },
+      { week: actualEndWeek + 12, value: Math.round(next12wDemand || 0), total: Math.round(next12wDemand || 0), label: "Next 12w" },
     ].filter((point) => Number.isFinite(point.value))
     : forecast.points;
   const chartForecastPoints = isModelForecast
@@ -1193,12 +1198,12 @@ function ExistingProductView({ data, product, existingModel }) {
   const chartBandPoints = isModelForecast ? [actualAnalogTop, actualAnalogBottom] : [analogTop, analogBottom];
   const chartWeeklyTiles = isModelForecast
     ? [
-      ...actualLifecycle.map((value, week) => ({ label: `W${week}`, value, kind: "observed" })),
-      ...forecastMilestonePoints.map((point) => ({ label: `${point.label} total`, value: point.total, kind: "forecast-tile" })),
+      ...actualLifecycle.map((value, week) => ({ label: `W${week}`, week, value, kind: "observed" })),
+      ...forecastMilestonePoints.map((point) => ({ label: `${point.label} total`, week: point.week, value: point.total, kind: "forecast-tile" })),
     ]
     : [
-      ...actualLifecycle.map((value, week) => ({ label: `W${week}`, value, kind: "observed" })),
-      ...forecast.points.map((point) => ({ label: `W${point.week}`, value: point.value, kind: "forecast-tile" })),
+      ...actualLifecycle.map((value, week) => ({ label: `W${week}`, week, value, kind: "observed" })),
+      ...forecast.points.map((point) => ({ label: `W${point.week}`, week: point.week, value: point.value, kind: "forecast-tile" })),
     ];
   const confidenceBreakdown = forecast.confidenceBreakdown || {};
   const confidenceBreakdownText = forecast.source === "ML model"
@@ -1217,7 +1222,7 @@ function ExistingProductView({ data, product, existingModel }) {
       : isModelForecast ? `the model signal does not pass the Restock threshold` : `the signal does not pass the Restock gates`;
   const modelDetailItems = [
     { label: "Model input", value: `Product ${product.id}`, note: "The planner selects a product ID; the system retrieves all related product information for prediction.", logic: "The user-facing input is product_id. Internal features are looked up from product data: attributes, observed sales momentum, discount/price, store coverage, restock signal, category benchmark, and Google Trends." },
-    { label: "Model outputs", value: `${formatK(next12wDemand)} next 12w`, note: `Next 4w ${formatK(next4wDemand || 0)}, next 8w ${formatK(next8wDemand || 0)}, next 12w ${formatK(next12wDemand || 0)}.`, logic: "Three trained XGBoost regressors predict total future demand for the next 4, 8, and 12 weeks. The chart markers show average weekly run-rate so they remain comparable with actual weekly sales." },
+    { label: "Model outputs", value: `${formatK(next12wDemand)} next 12w`, note: `Next 4w ${formatK(next4wDemand || 0)}, next 8w ${formatK(next8wDemand || 0)}, next 12w ${formatK(next12wDemand || 0)}.`, logic: "Three trained XGBoost regressors predict cumulative future demand for the next 4, 8, and 12 weeks. The chart markers and tiles show the same cumulative totals." },
     { label: "Model accuracy", value: `${forecast.modelPredictions?.testAccuracyPct ?? "N/A"}%`, note: `Held-out test WAPE is ${forecast.modelPredictions?.testWapePct ?? "N/A"}%; bias is ${forecast.modelPredictions?.testBiasPct ?? "N/A"}%.`, logic: "Accuracy is calculated as 1 - WAPE on the 15% product-level test set. The split is product-level 70/15/15, so test products are not seen during training." },
     { label: "Category benchmark", value: `${formatK(modelCategoryBenchmark || categoryBenchmark.median)} avg. next 12w`, note: `Recommendation compares next 12w model demand with the ${product.category} model category benchmark.`, logic: "The category benchmark is derived from the trained model artifact for the same next-12-week target, so it is on the same unit basis as the model forecast." },
     { label: "Watch threshold", value: `${formatK(lowDemandThreshold)} next 12w`, note: `Calculated as 75% of the ${product.category} model category benchmark (${formatK(modelCategoryBenchmark || categoryBenchmark.median)}).`, logic: "Watch threshold = category benchmark x 0.75. It marks a low-demand zone: if the next-12-week forecast is below this value, the product is watched instead of replenished because predicted demand is materially below the category baseline. It is not an order quantity." },
@@ -1312,7 +1317,7 @@ function ExistingProductView({ data, product, existingModel }) {
       <section className="main-grid single-chart">
         <TrendChart
           title={isModelForecast ? "Actual lifecycle sales and 4w / 8w / 12w forecast" : "Actual lifecycle sales and 12-week forecast"}
-          subtitle={isModelForecast ? `${actualWindow} are observed weekly sales. Forecast markers show average weekly run-rate for next 4w, 8w, and 12w; tiles show total demand.` : `${actualWindow} are observed transaction sales. ${forecast.window} is forecast from scaled lifecycle tails with Google Trends ${trendMultiplier}.`}
+          subtitle={isModelForecast ? `${actualWindow} are observed weekly sales. Forecast markers show cumulative model demand for next 4w, 8w, and 12w.` : `${actualWindow} are observed transaction sales. ${forecast.window} is forecast from scaled lifecycle tails with Google Trends ${trendMultiplier}.`}
           labels={chartLabels}
           actualPoints={actualPoints}
           forecastPoints={chartForecastPoints}
@@ -1321,7 +1326,7 @@ function ExistingProductView({ data, product, existingModel }) {
           weeklyTiles={chartWeeklyTiles}
           totalLabel={isModelForecast ? "Next 12w total" : "Forecast units"}
           totalValue={forecast.total}
-          forecastTooltip={isModelForecast ? `Forecast markers use average weekly run-rate so they share the same y-axis unit as actual weekly sales: next 4w total / 4, next 8w total / 8, and next 12w total / 12. The tiles and Demand outlook show the cumulative model outputs.` : `Projected ${forecast.window} units. Each historical candidate tail is scaled to current product demand, then multiplied by Google Trends ${trendMultiplier}. Trend compares weighted ${trendKeys} search interest in the forecast window against the previous 12 lifecycle weeks.`}
+          forecastTooltip={isModelForecast ? `Forecast markers show cumulative model outputs: next 4w total, next 8w total, and next 12w total. These are the same totals shown in the tiles and Demand outlook.` : `Projected ${forecast.window} units. Each historical candidate tail is scaled to current product demand, then multiplied by Google Trends ${trendMultiplier}. Trend compares weighted ${trendKeys} search interest in the forecast window against the previous 12 lifecycle weeks.`}
           analogRangeTooltip={isModelForecast ? "Analog range is shown only over actual historical weeks as P25-P75 of matched analog actual lifecycle sales." : "Analog range covers actual and forecast windows. In actual weeks, it is the P25-P75 range of matched analog actual sales. In forecast weeks, it is the P25-P75 range of scaled historical future tails after the same Google Trends adjustment."}
         />
       </section>
@@ -1368,9 +1373,9 @@ function NewProductView({ data, draft, setDraft, newProductModelArtifact }) {
   const options = data.newProductModel.attributeOptions;
   const forecastPoints = forecastAvailable
     ? [
-      { week: 4, value: Math.round(modelPredictions.future4w / 4), total: modelPredictions.future4w, label: "4w" },
-      { week: 8, value: Math.round(modelPredictions.future8w / 8), total: modelPredictions.future8w, label: "8w" },
-      { week: 12, value: Math.round(modelPredictions.future12w / 12), total: modelPredictions.future12w, label: "12w" },
+      { week: 4, value: Math.round(modelPredictions.future4w), total: modelPredictions.future4w, label: "4w" },
+      { week: 8, value: Math.round(modelPredictions.future8w), total: modelPredictions.future8w, label: "8w" },
+      { week: 12, value: Math.round(modelPredictions.future12w), total: modelPredictions.future12w, label: "12w" },
     ]
     : [];
   const chartLabels = [4, 8, 12];
@@ -1473,16 +1478,16 @@ function NewProductView({ data, draft, setDraft, newProductModelArtifact }) {
         {forecastAvailable ? (
           <TrendChart
             title="New product 4w / 8w / 12w forecast"
-            subtitle="No actual sales yet. Dots show average weekly run-rate for each model horizon; tiles show cumulative model demand."
+            subtitle="No actual sales yet. Dots and tiles show cumulative model demand for each horizon."
             labels={chartLabels}
             actualPoints={[]}
             forecastPoints={forecastPoints}
             bandPoints={[]}
             highlightWeeks={chartLabels}
-            weeklyTiles={forecastPoints.map((point) => ({ label: `Future ${point.label} total`, value: point.total, kind: "forecast-tile" }))}
+            weeklyTiles={forecastPoints.map((point) => ({ label: `Future ${point.label} total`, week: point.week, value: point.total, kind: "forecast-tile" }))}
             totalLabel="Future 12w total"
             totalValue={selectedTotal}
-            forecastTooltip="XGBoost outputs cumulative future4wDemand, future8wDemand, and future12wDemand from category, color, and fabric. Chart dots divide each cumulative total by its horizon so the y-axis reads as average weekly run-rate."
+            forecastTooltip="XGBoost outputs cumulative future4wDemand, future8wDemand, and future12wDemand from category, color, and fabric. Chart dots and tiles show the same cumulative totals."
             analogRangeTooltip="Analog range is not shown on this forecast chart because the new-product forecast comes from XGBoost model outputs, not an analog weekly curve."
           />
         ) : (

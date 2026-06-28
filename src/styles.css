@@ -1102,13 +1102,13 @@ h1 {
 
 .weekly-actuals {
   display: grid;
-  grid-template-columns: repeat(24, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--tile-columns, 24), minmax(0, 1fr));
   gap: 4px;
   padding: 0 18px 18px;
 }
 
 .weekly-actuals.twelve-tiles {
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--tile-columns, 12), minmax(0, 1fr));
   gap: 6px;
 }
 
@@ -2145,6 +2145,10 @@ h1 {
   .weekly-actuals,
   .weekly-actuals.twelve-tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .weekly-actuals div {
+    grid-column: auto !important;
   }
 
   .analog-grid {
